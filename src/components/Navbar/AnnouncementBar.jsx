@@ -1,31 +1,35 @@
 import { motion } from 'framer-motion';
 
 /**
- * Chargeflow-style announcement bar with scrolling marquee effect.
+ * 1:1 Chargeflow Announcement Bar.
+ * Exact 40px height, black background, and Montserrat typography.
  */
 export const AnnouncementBar = () => {
-  const text = "Announcing our $35m series a funding To take down friendly fraud - read more →";
+  const text = "ANNOUNCING OUR $35M SERIES A FUNDING TO TAKE DOWN FRIENDLY FRAUD - READ MORE →";
   
   return (
-    <div className="bg-[#6D28D9] h-8 flex items-center overflow-hidden whitespace-nowrap select-none relative z-[60]">
+    <div className="bg-black h-[40px] flex items-center overflow-hidden whitespace-nowrap select-none relative z-[60] border-b border-white/5 font-['Montserrat']">
       <motion.div
         animate={{ x: ['0%', '-50%'] }}
         transition={{
-          duration: 30,
+          duration: 25,
           repeat: Infinity,
           ease: 'linear',
         }}
-        className="flex gap-16 px-4"
+        className="flex gap-12"
       >
-        <div className="flex gap-16">
-          {[...Array(6)].map((_, i) => (
-            <a
-              key={i}
-              href="#"
-              className="text-[11px] font-bold text-white uppercase tracking-wider hover:underline"
-            >
-              {text}
-            </a>
+        <div className="flex gap-12 items-center">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <span className="text-[#bef264] text-[14px]">⚡</span>
+              <a
+                href="#"
+                className="text-[11px] font-[900] text-[#bef264] uppercase tracking-[0.05em] hover:opacity-80 transition-opacity"
+              >
+                {text}
+              </a>
+              <span className="text-[#bef264] text-[14px]">⚡</span>
+            </div>
           ))}
         </div>
       </motion.div>
