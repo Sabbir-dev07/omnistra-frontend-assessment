@@ -1,317 +1,276 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ─── Nav data ──────────────────────────────────────────────────────────────
-const PRODUCTS = [
+// ─── Navigation data (exact order from chargeflow.io) ──────────────────────
+const PRODUCTS_MENU = [
   {
     label: 'Prevent',
     badge: 'NEW',
-    desc: 'Stop friendly fraud & block digital shoplifters before the chargeback happens.',
-    href: '#',
+    desc: 'Stop friendly fraud & block digital shoplifters before the next chargeback.',
+    icon: '🛡️',
   },
   {
     label: 'Automation',
     badge: null,
-    desc: 'Fully automated chargeback recovery with 4x ROI guarantee.',
-    href: '#',
+    desc: 'Fully automated chargeback recovery with a 4× ROI guarantee.',
+    icon: '⚡',
   },
   {
     label: 'Alerts',
     badge: null,
-    desc: 'Prevent 90% of chargebacks before they happen, powered by Visa & Mastercard.',
-    href: '#',
+    desc: 'Cut 90% of chargebacks before they happen, powered by Visa & Mastercard.',
+    icon: '🔔',
   },
   {
     label: 'Insights',
     badge: 'FREE',
-    desc: "Bird's-eye view into your payments and chargebacks, all in one dashboard.",
-    href: '#',
+    desc: "Bird's-eye view of your payments & chargebacks in one powerful dashboard.",
+    icon: '📊',
   },
   {
     label: 'Connect',
     badge: 'FOR PLATFORMS',
-    desc: 'Integrate Chargeflow via Embedding, Whitelabel or API.',
-    href: '#',
+    desc: 'Integrate Chargeflow via Embedding, Whitelabel, or API.',
+    icon: '🔗',
   },
 ];
 
-const NAV_LINKS = [
-  { label: 'Products', hasDropdown: true },
+const NAV_ITEMS = [
+  { label: 'Products', dropdown: true },
   { label: 'Customers', href: '#' },
   { label: 'Pricing', href: '#' },
-  { label: 'Integrations', href: '#' },
   { label: 'Resources', href: '#' },
-  { label: 'Company', href: '#' },
+  { label: 'Blog', href: '#' },
 ];
 
-// ─── Animation variants ─────────────────────────────────────────────────────
+// ─── Framer Motion variants ──────────────────────────────────────────────────
 const dropdownVariants = {
-  hidden: { opacity: 0, y: -8, scale: 0.98 },
+  hidden: { opacity: 0, y: -10, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.2, ease: 'easeOut' },
+    transition: { duration: 0.18, ease: 'easeOut' },
   },
   exit: {
     opacity: 0,
-    y: -6,
-    scale: 0.97,
-    transition: { duration: 0.15, ease: 'easeIn' },
+    y: -8,
+    scale: 0.96,
+    transition: { duration: 0.13, ease: 'easeIn' },
   },
 };
 
-const mobileMenuVariants = {
-  hidden: { x: '100%', opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: { type: 'tween', duration: 0.3, ease: 'easeOut' },
-  },
-  exit: {
-    x: '100%',
-    opacity: 0,
-    transition: { type: 'tween', duration: 0.25, ease: 'easeIn' },
-  },
+const drawerVariants = {
+  hidden: { x: '-100%' },
+  visible: { x: 0, transition: { type: 'tween', duration: 0.28, ease: 'easeOut' } },
+  exit:    { x: '-100%', transition: { type: 'tween', duration: 0.22, ease: 'easeIn' } },
 };
 
-// ─── Products Dropdown ──────────────────────────────────────────────────────
-function ProductsDropdown() {
+// ─── Logo ────────────────────────────────────────────────────────────────────
+function Logo() {
+  return (
+    <a href="#" className="flex items-center gap-2 select-none shrink-0" aria-label="Chargeflow home">
+      {/* Lightning bolt mark */}
+      <div
+        className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center shadow-sm"
+        style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
+      >
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+          <path d="M10 1L3.5 9H8.5L6 15L12.5 7H7.5L10 1Z" fill="white" />
+        </svg>
+      </div>
+      <span className="text-[18px] font-bold tracking-tight text-gray-900">
+        Charge<span style={{ color: '#0066ff' }}>flow</span>
+      </span>
+    </a>
+  );
+}
+
+// ─── Products Dropdown ───────────────────────────────────────────────────────
+function ProductsDropdown({ onMouseEnter, onMouseLeave }) {
   return (
     <motion.div
       variants={dropdownVariants}
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[520px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[440px] bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden z-50"
     >
-      {/* Header */}
-      <div className="px-5 pt-5 pb-3">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Products</p>
+      <div className="px-4 pt-4 pb-1">
+        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Products</p>
       </div>
-      <div className="px-3 pb-4 space-y-1">
-        {PRODUCTS.map((p) => (
-          <motion.a
-            key={p.label}
-            href={p.href}
-            whileHover={{ backgroundColor: '#f8f7ff', x: 2 }}
-            className="flex items-start gap-3 rounded-xl px-3 py-3 group transition-colors"
+
+      <div className="p-2 space-y-0.5">
+        {PRODUCTS_MENU.map((item) => (
+          <a
+            key={item.label}
+            href="#"
+            className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 group transition-colors duration-150"
           >
-            {/* Icon placeholder */}
-            <div className="mt-0.5 w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center shrink-0">
-              <div className="w-3 h-3 rounded-sm bg-violet-500" />
-            </div>
-            <div className="min-w-0">
+            <span className="text-base mt-0.5 shrink-0">{item.icon}</span>
+            <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-gray-900 group-hover:text-violet-700 transition-colors">
-                  {p.label}
+                <span className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  {item.label}
                 </span>
-                {p.badge && (
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 uppercase tracking-wide">
-                    {p.badge}
+                {item.badge && (
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-wide">
+                    {item.badge}
                   </span>
                 )}
               </div>
-              <p className="text-xs text-gray-500 mt-0.5 leading-relaxed line-clamp-2">{p.desc}</p>
+              <p className="text-[11px] text-gray-500 mt-0.5 leading-relaxed">{item.desc}</p>
             </div>
-          </motion.a>
+          </a>
         ))}
       </div>
-      {/* Footer CTA */}
-      <div className="border-t border-gray-100 px-5 py-3 flex items-center justify-between bg-gray-50">
-        <span className="text-xs text-gray-500">Trusted by 15,000+ brands worldwide</span>
-        <a href="#" className="text-xs font-semibold text-violet-600 hover:text-violet-800 transition-colors">
-          View all products →
+
+      {/* Footer */}
+      <div className="mx-2 mb-2 px-3 py-2.5 rounded-xl bg-blue-50 flex items-center justify-between">
+        <span className="text-[11px] text-gray-500">Trusted by 15,000+ brands</span>
+        <a href="#" className="text-[11px] font-semibold text-blue-600 hover:underline">
+          View all →
         </a>
       </div>
     </motion.div>
   );
 }
 
-// ─── Chargeflow Logo SVG ────────────────────────────────────────────────────
-function ChargeflowLogo() {
-  return (
-    <a href="#" className="flex items-center gap-2 select-none">
-      {/* Lightning bolt icon */}
-      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center shadow-sm">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M9.5 1L3 9H8L6.5 15L13 7H8L9.5 1Z"
-            fill="white"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
-      <span
-        className="text-xl font-bold tracking-tight"
-        style={{ color: '#1a1a2e', fontFamily: 'Inter, sans-serif' }}
-      >
-        charge<span style={{ color: '#7c3aed' }}>flow</span>
-      </span>
-    </a>
-  );
-}
-
-// ─── Hamburger icon ─────────────────────────────────────────────────────────
+// ─── Hamburger Button ────────────────────────────────────────────────────────
 function Hamburger({ open, onClick }) {
   return (
     <button
-      aria-label="Toggle menu"
       onClick={onClick}
-      className="relative w-8 h-8 flex flex-col justify-center items-center gap-1.5 lg:hidden"
+      aria-label={open ? 'Close menu' : 'Open menu'}
+      className="lg:hidden flex flex-col justify-center items-center w-9 h-9 gap-[5px] rounded-lg hover:bg-gray-100 transition-colors shrink-0"
     >
       <motion.span
-        animate={open ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="block w-6 h-0.5 bg-gray-700 rounded-full origin-center"
+        animate={open ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }}
+        transition={{ duration: 0.22 }}
+        className="w-5 h-[1.5px] bg-gray-800 rounded-full block origin-center"
       />
       <motion.span
         animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-        transition={{ duration: 0.2 }}
-        className="block w-6 h-0.5 bg-gray-700 rounded-full"
+        transition={{ duration: 0.15 }}
+        className="w-5 h-[1.5px] bg-gray-800 rounded-full block"
       />
       <motion.span
-        animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="block w-6 h-0.5 bg-gray-700 rounded-full origin-center"
+        animate={open ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }}
+        transition={{ duration: 0.22 }}
+        className="w-5 h-[1.5px] bg-gray-800 rounded-full block origin-center"
       />
     </button>
   );
 }
 
-// ─── Main Navbar ────────────────────────────────────────────────────────────
+// ─── Main Navbar ─────────────────────────────────────────────────────────────
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const timeoutRef = useRef(null);
+  const [scrolled, setScrolled]       = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [mobileOpen, setMobileOpen]   = useState(false);
+  const leaveTimer = useRef(null);
 
-  // Scroll listener — transparent → solid white on scroll
+  /* Scroll → transparent ↔ white */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mobile menu on resize
+  /* Close drawer on resize to desktop */
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) setMobileOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const onResize = () => { if (window.innerWidth >= 1024) setMobileOpen(false); };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Prevent body scroll when mobile menu open
+  /* Lock body scroll while drawer open */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
-  const handleMouseEnter = (label) => {
-    clearTimeout(timeoutRef.current);
-    setActiveDropdown(label);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setActiveDropdown(null), 120);
-  };
+  const openMenu  = (label) => { clearTimeout(leaveTimer.current); setOpenDropdown(label); };
+  const closeMenu = ()      => { leaveTimer.current = setTimeout(() => setOpenDropdown(null), 100); };
 
   return (
     <>
-      {/* ─── Announcement Bar ─── */}
-      <div className="w-full bg-violet-700 text-white text-xs font-medium text-center py-2 px-4 overflow-hidden">
-        <a
-          href="#"
-          className="hover:underline inline-flex items-center gap-1 whitespace-nowrap"
-        >
-          🎉 Announcing our $35M Series A funding to take down friendly fraud — read more →
-        </a>
-      </div>
-
-      {/* ─── Navbar ─── */}
-      <motion.header
+      {/* ── Fixed Navbar ─────────────────────────────────────────────────── */}
+      <motion.nav
+        aria-label="Main navigation"
         initial={false}
         animate={{
           backgroundColor: scrolled ? '#ffffff' : 'rgba(255,255,255,0)',
           boxShadow: scrolled
-            ? '0 1px 0 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.06)'
-            : '0 0 0 rgba(0,0,0,0)',
+            ? '0 1px 0 rgba(0,0,0,0.06), 0 2px 16px rgba(0,0,0,0.07)'
+            : '0 0 0 transparent',
         }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-8 left-0 right-0 z-40 w-full"
-        style={{ borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : 'none' }}
+        transition={{ duration: 0.28, ease: 'easeInOut' }}
+        className="fixed top-0 left-0 right-0 z-50 w-full"
       >
-        <nav className="max-w-[1280px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between gap-6">
-          {/* Left: Logo */}
-          <ChargeflowLogo />
+        <div className="max-w-[1280px] mx-auto px-6 md:px-10 h-[68px] flex items-center justify-between gap-8">
 
-          {/* Center: Nav links */}
-          <ul className="hidden lg:flex items-center gap-1">
-            {NAV_LINKS.map((item) => (
+          {/* Logo */}
+          <Logo />
+
+          {/* Desktop nav links */}
+          <ul className="hidden lg:flex items-center gap-1 flex-1 justify-center">
+            {NAV_ITEMS.map((item) => (
               <li
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => item.hasDropdown && handleMouseEnter(item.label)}
-                onMouseLeave={item.hasDropdown ? handleMouseLeave : undefined}
-                ref={item.hasDropdown ? dropdownRef : null}
+                onMouseEnter={() => item.dropdown && openMenu(item.label)}
+                onMouseLeave={() => item.dropdown && closeMenu()}
               >
                 <a
                   href={item.href || '#'}
-                  className="relative flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md group"
-                  style={{ color: scrolled ? '#1a1a2e' : '#1a1a2e' }}
+                  className="relative flex items-center gap-[5px] px-3 py-2 text-[14px] font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 rounded-lg hover:bg-blue-50 group"
                 >
-                  <span className="relative">
-                    {item.label}
-                    {/* Animated underline */}
-                    <motion.span
-                      className="absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full bg-violet-600"
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
-                      style={{ originX: 0 }}
-                    />
-                  </span>
-                  {item.hasDropdown && (
+                  {item.label}
+                  {item.dropdown && (
                     <motion.svg
-                      animate={{ rotate: activeDropdown === item.label ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      className="text-gray-500"
+                      animate={{ rotate: openDropdown === item.label ? 180 : 0 }}
+                      transition={{ duration: 0.18 }}
+                      width="11" height="11" viewBox="0 0 12 12" fill="none"
+                      className="text-gray-400 group-hover:text-blue-500"
                     >
-                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </motion.svg>
                   )}
                 </a>
+
                 {/* Dropdown */}
-                {item.hasDropdown && (
+                {item.dropdown && (
                   <AnimatePresence>
-                    {activeDropdown === item.label && <ProductsDropdown />}
+                    {openDropdown === item.label && (
+                      <ProductsDropdown
+                        onMouseEnter={() => openMenu(item.label)}
+                        onMouseLeave={closeMenu}
+                      />
+                    )}
                   </AnimatePresence>
                 )}
               </li>
             ))}
           </ul>
 
-          {/* Right: CTA buttons */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Desktop right CTAs */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <a
               href="#"
-              className="text-sm font-medium text-gray-700 hover:text-violet-700 transition-colors duration-200 px-3 py-2"
+              className="px-4 py-2 text-[14px] font-medium text-gray-600 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200"
             >
               Sign in
             </a>
             <motion.a
               href="#"
-              whileHover={{ scale: 1.03, boxShadow: '0 4px 20px rgba(124,58,237,0.35)' }}
+              whileHover={{ scale: 1.03, boxShadow: '0 4px 18px rgba(0,102,255,0.35)' }}
               whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.2 }}
-              className="px-5 py-2 text-sm font-semibold text-white rounded-full"
-              style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)' }}
+              transition={{ duration: 0.18 }}
+              className="px-5 py-2 text-[14px] font-semibold text-white rounded-full"
+              style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
             >
               Schedule a demo
             </motion.a>
@@ -319,82 +278,81 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <Hamburger open={mobileOpen} onClick={() => setMobileOpen((v) => !v)} />
-        </nav>
-      </motion.header>
+        </div>
+      </motion.nav>
 
-      {/* ─── Mobile Menu Overlay ─── */}
+      {/* ── Mobile Drawer ─────────────────────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <>
             {/* Backdrop */}
             <motion.div
+              key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-40 bg-black/25 backdrop-blur-sm lg:hidden"
             />
 
-            {/* Slide-in drawer */}
+            {/* Drawer — slides from LEFT */}
             <motion.aside
-              variants={mobileMenuVariants}
+              key="drawer"
+              variants={drawerVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-0 right-0 bottom-0 z-50 w-80 bg-white shadow-2xl lg:hidden overflow-y-auto"
+              className="fixed top-0 left-0 bottom-0 z-50 w-[300px] bg-white shadow-2xl lg:hidden overflow-y-auto flex flex-col"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                <ChargeflowLogo />
+              <div className="flex items-center justify-between px-5 h-[68px] border-b border-gray-100 shrink-0">
+                <Logo />
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
                   aria-label="Close menu"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
                 >
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M2 2L14 14M14 2L2 14" stroke="#374151" strokeWidth="2" strokeLinecap="round"/>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 1L13 13M13 1L1 13" stroke="#374151" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
 
-              {/* Nav links */}
-              <div className="px-4 py-4 space-y-1">
-                {NAV_LINKS.map((item, i) => (
+              {/* Nav list */}
+              <nav className="flex-1 px-3 py-4 space-y-1" aria-label="Mobile navigation">
+                {NAV_ITEMS.map((item, i) => (
                   <motion.a
                     key={item.label}
                     href={item.href || '#'}
-                    initial={{ x: 20, opacity: 0 }}
+                    initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.05 + 0.1 }}
+                    transition={{ delay: i * 0.05 + 0.05 }}
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium text-gray-800 hover:bg-violet-50 hover:text-violet-700 transition-colors"
+                    className="flex items-center justify-between px-3 py-3 rounded-xl text-[14px] font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                   >
                     {item.label}
-                    {item.hasDropdown && (
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-gray-400">
-                        <path d="M4 2L8 6L4 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    {item.dropdown && (
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" className="text-gray-400">
+                        <path d="M4 2L8 6L4 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
                       </svg>
                     )}
                   </motion.a>
                 ))}
-              </div>
-
-              {/* Divider */}
-              <div className="mx-4 border-t border-gray-100 my-2" />
+              </nav>
 
               {/* Mobile CTAs */}
-              <div className="px-4 py-4 space-y-3">
+              <div className="px-4 pb-6 pt-2 space-y-2.5 border-t border-gray-100">
                 <a
                   href="#"
-                  className="block w-full text-center px-5 py-3 rounded-xl text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+                  className="block text-center w-full py-3 rounded-xl text-[14px] font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
                   Sign in
                 </a>
                 <a
                   href="#"
-                  className="block w-full text-center px-5 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-                  style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)' }}
+                  className="block text-center w-full py-3 rounded-xl text-[14px] font-semibold text-white transition-opacity hover:opacity-90"
+                  style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
                 >
                   Schedule a demo
                 </a>
