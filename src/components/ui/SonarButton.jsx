@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion';
 
 /**
- * 1:1 Sonar Button (Refactored to use DEFINITIVE production variables).
+ * 1:1 Sonar Button (Refactored for Safety & Visibility).
+ * Consumes production variables with safe fallbacks.
  */
 export const SonarButton = ({ children, color = 'blue', href = '#', className = '' }) => {
   const colorMap = {
-    blue: 'bg-[var(--button-bg-color)] text-[var(--button-text-color)] hover:bg-[var(--button-hover-bg-color)]',
+    blue: 'bg-[#3448ff] text-white hover:bg-[#2B3CD5]',
     black: 'bg-black text-white hover:bg-gray-900',
-    white: 'bg-white text-[var(--lightmode--onsurface)] border border-[var(--_apps---colors--border)] hover:border-[var(--blue-500)] shadow-sm',
-    transparent: 'bg-transparent text-[var(--_apps---colors--foreground)] hover:text-[var(--blue-500)]'
+    white: 'bg-white text-gray-900 border border-gray-100 hover:border-[#3448ff] shadow-sm',
+    transparent: 'bg-transparent text-gray-950 hover:text-[#3448ff]'
   };
 
   const gradientStyle = color === 'gradient' ? {
-    background: 'linear-gradient(135deg, var(--blue-500) 0%, var(--primary) 100%)',
+    background: 'linear-gradient(135deg, #3448ff 0%, #7443ff 100%)',
   } : {};
 
   return (
@@ -24,12 +25,12 @@ export const SonarButton = ({ children, color = 'blue', href = '#', className = 
       whileTap={{ scale: 0.98 }}
     >
       <div className="c-text-wr">
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap font-medium uppercase tracking-[0.01em] text-[1rem]">
           {children}
         </p>
       </div>
       
-      {/* Precision Arrow (from styles) */}
+      {/* Precision Arrow (from production styles) */}
       <div className="c-button-arrow w-[13px] h-[14px] flex items-center justify-center shrink-0 transition-transform duration-250 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
         <div className="c-button-embed w-full h-full">
           <svg width="100%" height="100%" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -43,15 +43,15 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col font-[var(--_apps---typography--body-font)]">
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col" style={{ fontFamily: 'var(--_apps---typography--body-font)' }}>
         {/* Definitive 40px Announcement Bar */}
         <AnnouncementBar />
 
         {/* Primary Navigation Shell */}
         <nav
-          className={`transition-all duration-[var(--transition-duration)] w-full flex justify-center ${
+          className={`transition-all duration-250 w-full flex justify-center ${
             scrolled 
-              ? 'bg-[var(--white)]/90 backdrop-blur-[20px] border-b border-[var(--_apps---colors--border)] py-2 shadow-sm' 
+              ? 'bg-white/90 backdrop-blur-[20px] border-b border-gray-100 py-2 shadow-sm' 
               : 'bg-transparent py-4'
           }`}
         >
@@ -59,7 +59,7 @@ export default function Navbar() {
           <div className="c-nav-container w-full max-w-[90em] px-5 lg:px-[18px] flex items-center justify-between pointer-events-auto">
             
             {/* Logo Group */}
-            <div className="shrink-0">
+            <div className="shrink-0 flex items-center">
                <Logo scrolled={scrolled} />
             </div>
 
@@ -133,11 +133,12 @@ const MobileMenu = ({ isOpen, onClose, items }) => (
         <motion.div
           initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
           transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
-          className="fixed left-0 top-0 bottom-0 bg-[var(--white)] z-[70] w-[300px] shadow-2xl p-8 flex flex-col font-[var(--_apps---typography--body-font)] lg:hidden"
+          className="fixed left-0 top-0 bottom-0 bg-white z-[70] w-[300px] shadow-2xl p-8 flex flex-col lg:hidden"
+          style={{ fontFamily: 'var(--_apps---typography--body-font)' }}
         >
           <div className="mt-20 flex flex-col gap-1">
             {items.map(item => (
-              <a key={item.label} href="#" className="py-4 text-[1rem] font-[500] uppercase tracking-[0.05em] border-b border-[var(--grey-50)] flex justify-between items-center text-[var(--_apps---colors--foreground)]">
+              <a key={item.label} href="#" className="py-4 text-[1rem] font-[500] uppercase tracking-[0.05em] border-b border-gray-50 flex justify-between items-center text-gray-950">
                 {item.label}
                 <svg className="w-3.5 h-3.5 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
                   <path d="M9 18l6-6-6-6" />
