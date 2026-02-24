@@ -24,7 +24,7 @@ export const AnnouncementBar = () => {
               <span className="text-[#C3F967] text-[15px]">⚡</span>
               <a
                 href="#"
-                className="text-[11px] font-[900] text-[#C3F967] uppercase tracking-[0.05em] hover:opacity-80 transition-opacity"
+                className="text-[11px] font-[900] text-white uppercase tracking-[0.05em] hover:opacity-80 transition-opacity"
               >
                 {text}
               </a>

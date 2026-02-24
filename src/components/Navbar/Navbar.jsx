@@ -43,66 +43,66 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col" style={{ fontFamily: 'var(--_apps---typography--body-font)' }}>
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col bg-black">
         {/* Definitive 40px Announcement Bar */}
         <AnnouncementBar />
 
         {/* Primary Navigation Shell */}
-        <nav
-          className={`transition-all duration-250 w-full flex justify-center ${
-            scrolled 
-              ? 'bg-white/90 backdrop-blur-[20px] border-b border-gray-100 py-2 shadow-sm' 
-              : 'bg-transparent py-4'
-          }`}
-        >
-          {/* 1:1 .c-nav-container (90em / 1440px) from styles */}
-          <div className="c-nav-container w-full max-w-[90em] px-5 lg:px-[18px] flex items-center justify-between pointer-events-auto">
+        <nav className="w-full h-[84px] flex justify-center items-center relative px-10">
+          <div className="c-nav-container w-full flex items-center justify-between">
             
-            {/* Logo Group */}
-            <div className="shrink-0 flex items-center">
+            {/* 1. Logo (Left) */}
+            <div className="flex-1 flex justify-start">
                <Logo scrolled={scrolled} />
             </div>
 
-            {/* Desktop Navigation Link Array */}
-            <ul className="hidden lg:flex items-center gap-[2.5em]">
-              {NAV_LINKS.map((link) => (
-                <NavLink 
-                  key={link.label}
-                  label={link.label}
-                  hasDropdown={link.dropdown}
-                  isActive={activeMenu === link.label}
-                  onEnter={() => link.dropdown && handleEnter(link.label)}
-                  onLeave={() => link.dropdown && handleLeave()}
-                />
-              ))}
-            </ul>
-
-            {/* Action Buttons (.c-nav-right_wrapper) */}
-            <div className="hidden lg:flex items-center gap-[12px] shrink-0">
-               <div className="c-nav_buttons-wrapper cc-nav flex items-center gap-[0.75em]">
-                  <SonarButton color="transparent">sign in</SonarButton>
-                  <SonarButton color="white">sign up</SonarButton>
-                  <SonarButton color="blue">schedule a demo</SonarButton>
-               </div>
+            {/* 2. Centered Pill Navigation (Center) */}
+            <div className="hidden lg:flex items-center">
+              <div className="c-nav-pill-wrapper flex items-center gap-[1.5em] h-[48px]">
+                {NAV_LINKS.map((link) => (
+                  <NavLink 
+                    key={link.label}
+                    label={link.label}
+                    hasDropdown={link.dropdown}
+                    isActive={activeMenu === link.label}
+                    onEnter={() => link.dropdown && handleEnter(link.label)}
+                    onLeave={() => link.dropdown && handleLeave()}
+                  />
+                ))}
+              </div>
             </div>
 
-            {/* Mobile Interface */}
-            <div className="lg:hidden flex items-center">
-              <Hamburger isOpen={mobOpen} onClick={() => setMobOpen(!mobOpen)} />
+            {/* 3. Action Buttons (Right) */}
+            <div className="flex-1 flex justify-end items-center gap-[2.5em]">
+               {/* Sign In Link */}
+               <a href="#" className="hidden lg:flex items-center gap-1 text-[0.825rem] font-bold uppercase tracking-[0.05em] text-white hover:text-blue-500 transition-colors group">
+                 SIGN IN 
+                 <svg className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 13 14" fill="none">
+                    <path d="M1.8 12.5423L0.54 11.2823L10.188 1.7063L10.152 2.5523L5.886 2.5883H1.17V0.950296H12.132V11.9123H10.494V7.1783L10.53 2.7863L11.268 3.0023L1.8 12.5423Z" fill="currentColor"></path>
+                 </svg>
+               </a>
+
+               {/* Sign Up Button */}
+               <SonarButton color="blue" href="#">SIGN UP</SonarButton>
+
+               {/* Mobile Toggle */}
+               <div className="lg:hidden flex items-center">
+                 <Hamburger isOpen={mobOpen} onClick={() => setMobOpen(!mobOpen)} />
+               </div>
             </div>
           </div>
         </nav>
 
         {/* Mega-Dropdown System */}
         <AnimatePresence>
-          {activeMenu === 'Product' && (
+          {activeMenu && activeMenu !== 'Pricing' && (
             <motion.div 
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 12 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-[calc(100%-8px)] left-0 right-0 flex justify-center pointer-events-auto"
-              onMouseEnter={() => handleEnter('Product')}
+              className="absolute top-[124px] left-0 right-0 flex justify-center pointer-events-auto"
+              onMouseEnter={() => handleEnter(activeMenu)}
               onMouseLeave={() => handleLeave()}
             >
               <Dropdown items={PRODUCTS_ITEMS} />
@@ -127,31 +127,27 @@ const MobileMenu = ({ isOpen, onClose, items }) => (
       <>
         <motion.div 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/30 z-[60] backdrop-blur-sm lg:hidden" 
+          className="fixed inset-0 bg-black/60 z-[60] backdrop-blur-sm lg:hidden" 
           onClick={onClose} 
         />
         <motion.div
           initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
           transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
-          className="fixed left-0 top-0 bottom-0 bg-white z-[70] w-[300px] shadow-2xl p-8 flex flex-col lg:hidden"
-          style={{ fontFamily: 'var(--_apps---typography--body-font)' }}
+          className="fixed left-0 top-0 bottom-0 bg-black z-[70] w-[300px] shadow-2xl p-8 flex flex-col border-r border-white/10 lg:hidden"
         >
           <div className="mt-20 flex flex-col gap-1">
             {items.map(item => (
-              <a key={item.label} href="#" className="py-4 text-[1rem] font-[500] uppercase tracking-[0.05em] border-b border-gray-50 flex justify-between items-center text-gray-950">
+              <a key={item.label} href="#" className="py-4 text-[1rem] font-bold uppercase tracking-[0.05em] border-b border-white/5 flex justify-between items-center text-white hover:text-blue-500 transition-colors">
                 {item.label}
-                <svg className="w-3.5 h-3.5 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
+                <svg className="w-3.5 h-3.5 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </a>
             ))}
           </div>
           <div className="mt-auto flex flex-col gap-3">
-              <SonarButton color="blue" className="w-full">schedule a demo</SonarButton>
-              <div className="flex gap-2">
-                 <SonarButton color="white" className="flex-1">sign up</SonarButton>
-                 <SonarButton color="transparent" className="flex-1">sign in</SonarButton>
-              </div>
+              <SonarButton color="blue" className="w-full">sign up</SonarButton>
+              <a href="#" className="text-center text-white font-bold uppercase tracking-[0.05em] py-4">sign in</a>
           </div>
         </motion.div>
       </>
