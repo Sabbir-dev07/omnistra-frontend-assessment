@@ -1,28 +1,29 @@
 import { useState, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useScroll } from '../../hooks/useScroll';
-import { Button } from '../ui/Button';
+import { SonarButton } from '../ui/SonarButton';
 import { Logo } from './Logo';
-import { Dropdown } from './Dropdown';
-import { MobileMenu } from './MobileMenu';
+import { NavLink } from './NavLink';
+import { Hamburger } from './Hamburger';
 import { AnnouncementBar } from './AnnouncementBar';
+import { Dropdown } from './Dropdown';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
-  { label: 'PRODUCT',     dropdown: true },
-  { label: 'CUSTOMERS',    href: '#' },
-  { label: 'PRICING',      href: '#' },
-  { label: 'INTEGRATIONS', href: '#' },
-  { label: 'RESOURCES',    href: '#' },
-  { label: 'COMPANY',      href: '#' },
+  { label: 'Product',     dropdown: true },
+  { label: 'Customers',    dropdown: true }, // Customers also has a dropdown on live site
+  { label: 'Pricing',      href: '#' },
+  { label: 'Integrations', dropdown: true },
+  { label: 'Resources',    dropdown: true },
+  { label: 'Company',      dropdown: true },
 ];
 
 const PRODUCTS_ITEMS = [
-  { title: 'PREVENT',    badge: 'NEW',  desc: 'Stop friendly fraud & prevent the next chargeback.', icon: '🛡️' },
-  { title: 'AUTOMATION', badge: null,   desc: 'Fully automated recovery with a 4× ROI guarantee.',    icon: '⚡' },
-  { title: 'ALERTS',     badge: null,   desc: 'Cut 90% of chargebacks before they happen.',           icon: '🔔' },
-  { title: 'INSIGHTS',   badge: 'FREE', desc: 'Bird’s-eye view into your payments & chargebacks.',    icon: '📊' },
-  { title: 'CONNECT',    badge: 'NEW',  desc: 'Integrate via Embedding, Whitelabel or API.',         icon: '🔗' },
+  { title: 'Prevent',    badge: 'NEW',  desc: 'Stop friendly fraud & prevent the next chargeback.', icon: '🛡️' },
+  { title: 'Automation', badge: null,   desc: 'Fully automated recovery with a 4× ROI guarantee.',    icon: '⚡' },
+  { title: 'Alerts',     badge: null,   desc: 'Cut 90% of chargebacks before they happen.',           icon: '🔔' },
+  { title: 'Insights',   badge: 'FREE', desc: 'Bird’s-eye view into your payments & chargebacks.',    icon: '📊' },
+  { title: 'Connect',    badge: 'NEW',  desc: 'Integrate via Embedding, Whitelabel or API.',         icon: '🔗' },
 ];
 
 export default function Navbar() {
@@ -50,82 +51,64 @@ export default function Navbar() {
         <nav
           className={`transition-all duration-300 w-full flex justify-center ${
             scrolled 
-              ? 'bg-white/90 backdrop-blur-[25px] border-b border-gray-100 py-3 shadow-sm' 
+              ? 'bg-white/90 backdrop-blur-[25px] border-b border-gray-100 py-3' 
               : 'bg-transparent py-5'
           }`}
         >
-          {/* Exact 90em (1440px) Max-Width Container with 0 18px Padding */}
-          <div className="w-full max-w-[90em] px-[18px] flex items-center justify-between gap-4">
+          {/* 1:1 .c-nav-container (90em / 1440px) with 18px padding */}
+          <div className="c-nav-container w-full max-w-[90em] px-[18px] flex items-center justify-between">
             
-            {/* Logo */}
+            {/* Logo Group */}
             <Logo scrolled={scrolled} />
 
-            {/* Nav Links */}
-            <ul className="hidden lg:flex items-center gap-[40px] mt-1">
+            {/* Desktop Navigation Links */}
+            <ul className="hidden lg:flex items-center gap-[40px]">
               {NAV_LINKS.map((link) => (
-                <li 
+                <NavLink 
                   key={link.label}
-                  className="relative"
-                  onMouseEnter={() => link.dropdown && handleEnter(link.label)}
-                  onMouseLeave={() => link.dropdown && handleLeave()}
-                >
-                  <a
-                    href={link.href || '#'}
-                    className={`group relative flex items-center gap-1.5 text-[14px] font-[800] tracking-[0.05em] transition-colors py-2 ${
-                      scrolled ? 'text-gray-900' : 'text-gray-900'
-                    } hover:text-[#0066ff]`}
-                  >
-                    {link.label}
-                    {link.dropdown && (
-                      <motion.svg
-                        animate={{ rotate: activeMenu === link.label ? 180 : 0 }}
-                        className="w-3.5 h-3.5 text-gray-400 opacity-80"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"
-                      >
-                        <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                      </motion.svg>
-                    )}
-                    {/* Hover Indicator */}
-                    <motion.span 
-                      className="absolute bottom-0 left-0 h-[2.5px] bg-[#0066ff] rounded-full"
-                      initial={{ width: 0 }}
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                    />
-                  </a>
-
-                  {link.dropdown && (
-                    <Dropdown isOpen={activeMenu === link.label} items={PRODUCTS_ITEMS} />
-                  )}
-                </li>
+                  label={link.label}
+                  hasDropdown={link.dropdown}
+                  isActive={activeMenu === link.label}
+                  onEnter={() => link.dropdown && handleEnter(link.label)}
+                  onLeave={() => link.dropdown && handleLeave()}
+                />
               ))}
             </ul>
 
-            {/* Action Buttons */}
-            <div className="hidden lg:flex items-center gap-4 shrink-0">
-              <Button variant="ghost" className="text-gray-950 font-[800]">SIGN IN</Button>
-              <Button variant="gradient" className="px-7 py-3 font-[900]">SIGN UP</Button>
-              <Button className="px-7 py-3 font-[900] bg-[#0066ff] hover:bg-black group">
-                SCHEDULE A DEMO
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
-                  <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Button>
+            {/* Action Buttons Section (.c-nav-right_wrapper) */}
+            <div className="hidden lg:flex items-center gap-[12px] shrink-0">
+               <div className="c-nav_buttons-wrapper cc-nav flex items-center gap-[12px]">
+                  <SonarButton color="transparent">sign in</SonarButton>
+                  <SonarButton color="white">sign up</SonarButton>
+                  <SonarButton color="blue">schedule a demo</SonarButton>
+               </div>
             </div>
 
-            {/* Mobile Hamburger (3-tier) */}
-            <button 
-              onClick={() => setMobOpen(true)}
-              className="lg:hidden w-12 h-12 flex flex-col items-center justify-center gap-1.5 hover:bg-gray-50 rounded-2xl transition-colors"
-            >
-              <span className="w-6 h-[2.5px] bg-gray-950 rounded-full" />
-              <span className="w-4 h-[2.5px] bg-gray-900 rounded-full self-start ml-3" />
-              <span className="w-6 h-[2.5px] bg-gray-950 rounded-full" />
-            </button>
+            {/* Mobile Hamburger SVG (Definitive structural match) */}
+            <div className="lg:hidden flex items-center">
+              <Hamburger isOpen={mobOpen} onClick={() => setMobOpen(!mobOpen)} />
+            </div>
           </div>
         </nav>
+
+        {/* Dropdown Portal */}
+        <AnimatePresence>
+          {activeMenu === 'Product' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute top-[calc(100%-10px)] left-0 right-0 flex justify-center pt-2"
+              onMouseEnter={() => handleEnter('Product')}
+              onMouseLeave={() => handleLeave()}
+            >
+              <Dropdown items={PRODUCTS_ITEMS} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
+      {/* Mobile Drawer */}
       <MobileMenu 
         isOpen={mobOpen} 
         onClose={() => setMobOpen(false)} 
@@ -134,3 +117,39 @@ export default function Navbar() {
     </>
   );
 }
+
+// Internal Mobile Menu (Simplified but font-consistent)
+const MobileMenu = ({ isOpen, onClose, items }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <>
+        <motion.div 
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/20 z-[60] lg:hidden" 
+          onClick={onClose} 
+        />
+        <motion.div
+          initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
+          transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
+          className="fixed left-0 top-0 bottom-0 bg-white z-[70] w-[320px] shadow-2xl p-8 flex flex-col font-['Montserrat'] lg:hidden"
+        >
+          <div className="mt-20 flex flex-col gap-2">
+            {items.map(item => (
+              <a key={item.label} href="#" className="py-4 text-[18px] font-[800] uppercase tracking-wider border-b border-gray-100 flex justify-between items-center text-gray-900 overflow-hidden">
+                {item.label}
+                <svg className="w-4 h-4 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </a>
+            ))}
+          </div>
+          <div className="mt-auto flex flex-col gap-4">
+              <SonarButton color="transparent" className="w-full">sign in</SonarButton>
+              <SonarButton color="white" className="w-full">sign up</SonarButton>
+              <SonarButton color="blue" className="w-full">schedule a demo</SonarButton>
+          </div>
+        </motion.div>
+      </>
+    )}
+  </AnimatePresence>
+);
