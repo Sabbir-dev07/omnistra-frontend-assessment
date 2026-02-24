@@ -1,364 +1,306 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ─── Navigation data (exact order from chargeflow.io) ──────────────────────
-const PRODUCTS_MENU = [
-  {
-    label: 'Prevent',
-    badge: 'NEW',
-    desc: 'Stop friendly fraud & block digital shoplifters before the next chargeback.',
-    icon: '🛡️',
-  },
-  {
-    label: 'Automation',
-    badge: null,
-    desc: 'Fully automated chargeback recovery with a 4× ROI guarantee.',
-    icon: '⚡',
-  },
-  {
-    label: 'Alerts',
-    badge: null,
-    desc: 'Cut 90% of chargebacks before they happen, powered by Visa & Mastercard.',
-    icon: '🔔',
-  },
-  {
-    label: 'Insights',
-    badge: 'FREE',
-    desc: "Bird's-eye view of your payments & chargebacks in one powerful dashboard.",
-    icon: '📊',
-  },
-  {
-    label: 'Connect',
-    badge: 'FOR PLATFORMS',
-    desc: 'Integrate Chargeflow via Embedding, Whitelabel, or API.',
-    icon: '🔗',
-  },
-];
-
+// ─── Constants & Data ────────────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { label: 'Products', dropdown: true },
-  { label: 'Customers', href: '#' },
-  { label: 'Pricing', href: '#' },
-  { label: 'Resources', href: '#' },
-  { label: 'Blog', href: '#' },
+  { label: 'Products',     dropdown: true },
+  { label: 'Customers',    href: '#' },
+  { label: 'Pricing',      href: '#' },
+  { label: 'Integrations', href: '#' },
+  { label: 'Resources',    href: '#' },
+  { label: 'Company',      href: '#' },
 ];
 
-// ─── Framer Motion variants ──────────────────────────────────────────────────
-const dropdownVariants = {
-  hidden: { opacity: 0, y: -10, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.18, ease: 'easeOut' },
+const PRODUCTS_GRID = [
+  {
+    title: 'Prevent',
+    desc: 'Block digital shoplifters before the next chargeback.',
+    badge: 'NEW',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    ),
   },
-  exit: {
-    opacity: 0,
-    y: -8,
-    scale: 0.96,
-    transition: { duration: 0.13, ease: 'easeIn' },
+  {
+    title: 'Automation',
+    desc: 'Fully automated recovery with a 4× ROI guarantee.',
+    badge: null,
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>
+    ),
   },
-};
+  {
+    title: 'Alerts',
+    desc: 'Cut 90% of chargebacks before they happen.',
+    badge: null,
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Insights',
+    desc: 'Bird’s-eye view of your payment health.',
+    badge: 'FREE',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+        <path d="M22 12A10 10 0 0 0 12 2v10z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Connect',
+    desc: 'Integrate via Embedding, Whitelabel, or API.',
+    badge: 'FOR PLATFORMS',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </svg>
+    ),
+  },
+];
 
-const drawerVariants = {
-  hidden: { x: '-100%' },
-  visible: { x: 0, transition: { type: 'tween', duration: 0.28, ease: 'easeOut' } },
-  exit:    { x: '-100%', transition: { type: 'tween', duration: 0.22, ease: 'easeIn' } },
-};
+// ─── Sub-components ─────────────────────────────────────────────────────────
 
-// ─── Logo ────────────────────────────────────────────────────────────────────
-function Logo() {
+/**
+ * Dropdown menu for "Products" — 2-column grid
+ */
+function ProductsDropdown({ isOpen }) {
   return (
-    <a href="#" className="flex items-center gap-2 select-none shrink-0" aria-label="Chargeflow home">
-      {/* Lightning bolt mark */}
-      <div
-        className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center shadow-sm"
-        style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
-      >
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-          <path d="M10 1L3.5 9H8.5L6 15L12.5 7H7.5L10 1Z" fill="white" />
-        </svg>
-      </div>
-      <span className="text-[18px] font-bold tracking-tight text-gray-900">
-        Charge<span style={{ color: '#0066ff' }}>flow</span>
-      </span>
-    </a>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 15, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.98 }}
+          transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+          className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[580px] bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 p-6 flex flex-col gap-6 z-50 overflow-hidden"
+        >
+          <div className="grid grid-cols-2 gap-4">
+            {PRODUCTS_GRID.map((p) => (
+              <a
+                key={p.title}
+                href="#"
+                className="group flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors duration-200"
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
+                  {p.icon}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      {p.title}
+                    </span>
+                    {p.badge && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-wide">
+                        {p.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[12px] text-gray-500 leading-relaxed font-medium">
+                    {p.desc}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
+          
+          <div className="px-4 py-4 rounded-2xl bg-blue-50 flex items-center justify-between">
+            <span className="text-xs font-semibold text-gray-600">Explore the platform</span>
+            <a href="#" className="text-xs font-bold text-blue-600 flex items-center gap-1 group">
+              View all products
+              <motion.span whileHover={{ x: 3 }} transition={{ duration: 0.2 }}>→</motion.span>
+            </a>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
-// ─── Products Dropdown ───────────────────────────────────────────────────────
-function ProductsDropdown({ onMouseEnter, onMouseLeave }) {
-  return (
-    <motion.div
-      variants={dropdownVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[440px] bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden z-50"
-    >
-      <div className="px-4 pt-4 pb-1">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Products</p>
-      </div>
-
-      <div className="p-2 space-y-0.5">
-        {PRODUCTS_MENU.map((item) => (
-          <a
-            key={item.label}
-            href="#"
-            className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 group transition-colors duration-150"
-          >
-            <span className="text-base mt-0.5 shrink-0">{item.icon}</span>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                  {item.label}
-                </span>
-                {item.badge && (
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-wide">
-                    {item.badge}
-                  </span>
-                )}
-              </div>
-              <p className="text-[11px] text-gray-500 mt-0.5 leading-relaxed">{item.desc}</p>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      {/* Footer */}
-      <div className="mx-2 mb-2 px-3 py-2.5 rounded-xl bg-blue-50 flex items-center justify-between">
-        <span className="text-[11px] text-gray-500">Trusted by 15,000+ brands</span>
-        <a href="#" className="text-[11px] font-semibold text-blue-600 hover:underline">
-          View all →
-        </a>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── Hamburger Button ────────────────────────────────────────────────────────
-function Hamburger({ open, onClick }) {
+/**
+ * Animated Hamburger Icon — 3 lines to X
+ */
+function Hamburger({ isOpen, onClick }) {
   return (
     <button
       onClick={onClick}
-      aria-label={open ? 'Close menu' : 'Open menu'}
-      className="lg:hidden flex flex-col justify-center items-center w-9 h-9 gap-[5px] rounded-lg hover:bg-gray-100 transition-colors shrink-0"
+      className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 relative z-50 group"
+      aria-label="Toggle Menu"
     >
       <motion.span
-        animate={open ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }}
-        transition={{ duration: 0.22 }}
-        className="w-5 h-[1.5px] bg-gray-800 rounded-full block origin-center"
+        animate={isOpen ? { rotate: 45, y: 7.5 } : { rotate: 0, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.77, 0, 0.18, 1] }}
+        className="w-6 h-0.5 bg-gray-900 block rounded-full"
       />
       <motion.span
-        animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-        transition={{ duration: 0.15 }}
-        className="w-5 h-[1.5px] bg-gray-800 rounded-full block"
+        animate={isOpen ? { opacity: 0, x: 20 } : { opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+        className="w-6 h-0.5 bg-gray-900 block rounded-full"
       />
       <motion.span
-        animate={open ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }}
-        transition={{ duration: 0.22 }}
-        className="w-5 h-[1.5px] bg-gray-800 rounded-full block origin-center"
+        animate={isOpen ? { rotate: -45, y: -7.5 } : { rotate: 0, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.77, 0, 0.18, 1] }}
+        className="w-6 h-0.5 bg-gray-900 block rounded-full"
       />
     </button>
   );
 }
 
-// ─── Main Navbar ─────────────────────────────────────────────────────────────
-export default function Navbar() {
-  const [scrolled, setScrolled]       = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const [mobileOpen, setMobileOpen]   = useState(false);
-  const leaveTimer = useRef(null);
+// ─── Global Navbar ──────────────────────────────────────────────────────────
 
-  /* Scroll → transparent ↔ white */
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const timerRef = useRef(null);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Close drawer on resize to desktop */
-  useEffect(() => {
-    const onResize = () => { if (window.innerWidth >= 1024) setMobileOpen(false); };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
+  const handleMouseEnter = (label) => {
+    clearTimeout(timerRef.current);
+    setActiveMenu(label);
+  };
 
-  /* Lock body scroll while drawer open */
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [mobileOpen]);
-
-  const openMenu  = (label) => { clearTimeout(leaveTimer.current); setOpenDropdown(label); };
-  const closeMenu = ()      => { leaveTimer.current = setTimeout(() => setOpenDropdown(null), 100); };
+  const handleMouseLeave = () => {
+    timerRef.current = setTimeout(() => setActiveMenu(null), 150);
+  };
 
   return (
     <>
-      {/* ── Fixed Navbar ─────────────────────────────────────────────────── */}
-      <motion.nav
-        aria-label="Main navigation"
-        initial={false}
-        animate={{
-          backgroundColor: scrolled ? '#ffffff' : 'rgba(255,255,255,0)',
-          boxShadow: scrolled
-            ? '0 1px 0 rgba(0,0,0,0.06), 0 2px 16px rgba(0,0,0,0.07)'
-            : '0 0 0 transparent',
-        }}
-        transition={{ duration: 0.28, ease: 'easeInOut' }}
-        className="fixed top-0 left-0 right-0 z-50 w-full"
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-white/90 backdrop-blur-[15px] shadow-sm py-4'
+            : 'bg-transparent py-6'
+        }`}
       >
-        <div className="max-w-[1280px] mx-auto px-6 md:px-10 h-[68px] flex items-center justify-between gap-8">
-
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+          
           {/* Logo */}
-          <Logo />
+          <a href="#" className="flex items-center gap-2 group select-none relative z-50">
+            <div className="w-8 h-8 rounded-lg bg-[#0066ff] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+            </div>
+            <span className="text-xl font-bold tracking-tight text-gray-950">
+              Charge<span className="text-[#0066ff]">flow</span>
+            </span>
+          </a>
 
-          {/* Desktop nav links */}
-          <ul className="hidden lg:flex items-center gap-1 flex-1 justify-center">
+          {/* Desktop Links */}
+          <ul className="hidden md:flex items-center gap-8 lg:gap-11">
             {NAV_ITEMS.map((item) => (
               <li
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => item.dropdown && openMenu(item.label)}
-                onMouseLeave={() => item.dropdown && closeMenu()}
+                onMouseEnter={() => item.dropdown && handleMouseEnter(item.label)}
+                onMouseLeave={() => item.dropdown && handleMouseLeave()}
               >
                 <a
                   href={item.href || '#'}
-                  className="relative flex items-center gap-[5px] px-3 py-2 text-[14px] font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 rounded-lg hover:bg-blue-50 group"
+                  className="group relative text-[15px] font-semibold text-gray-800 hover:text-[#0066ff] transition-colors flex items-center gap-1 py-2"
                 >
                   {item.label}
                   {item.dropdown && (
                     <motion.svg
-                      animate={{ rotate: openDropdown === item.label ? 180 : 0 }}
-                      transition={{ duration: 0.18 }}
-                      width="11" height="11" viewBox="0 0 12 12" fill="none"
-                      className="text-gray-400 group-hover:text-blue-500"
+                      animate={{ rotate: activeMenu === item.label ? 180 : 0 }}
+                      className="w-4 h-4 text-gray-400"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M6 9l6 6 6-6" />
                     </motion.svg>
                   )}
+                  {/* Underline expansion */}
+                  <span className="absolute bottom-1 left-0 w-0 h-[2px] bg-[#0066ff] transition-all duration-300 group-hover:w-full" />
                 </a>
 
-                {/* Dropdown */}
                 {item.dropdown && (
-                  <AnimatePresence>
-                    {openDropdown === item.label && (
-                      <ProductsDropdown
-                        onMouseEnter={() => openMenu(item.label)}
-                        onMouseLeave={closeMenu}
-                      />
-                    )}
-                  </AnimatePresence>
+                  <ProductsDropdown isOpen={activeMenu === item.label} />
                 )}
               </li>
             ))}
           </ul>
 
-          {/* Desktop right CTAs */}
-          <div className="hidden lg:flex items-center gap-2 shrink-0">
-            <a
-              href="#"
-              className="px-4 py-2 text-[14px] font-medium text-gray-600 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200"
-            >
+          {/* Right CTAs */}
+          <div className="hidden md:flex items-center gap-6 relative z-50">
+            <a href="#" className="text-sm font-bold text-gray-700 hover:text-gray-950 transition-colors">
               Sign in
             </a>
             <motion.a
               href="#"
-              whileHover={{ scale: 1.03, boxShadow: '0 4px 18px rgba(0,102,255,0.35)' }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.18 }}
-              className="px-5 py-2 text-[14px] font-semibold text-white rounded-full"
-              style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(0,102,255,0.25)' }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#0066ff] text-white text-[14px] font-bold transition-colors hover:bg-[#0055dd]"
             >
               Schedule a demo
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
             </motion.a>
           </div>
 
-          {/* Mobile hamburger */}
-          <Hamburger open={mobileOpen} onClick={() => setMobileOpen((v) => !v)} />
+          {/* Mobile hamburger toggle */}
+          <Hamburger isOpen={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
+
         </div>
-      </motion.nav>
+      </nav>
 
-      {/* ── Mobile Drawer ─────────────────────────────────────────────────── */}
+      {/* ── Mobile Sidebar Drawer ─────────────────────────────────────────── */}
       <AnimatePresence>
-        {mobileOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              key="backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 z-40 bg-black/25 backdrop-blur-sm lg:hidden"
-            />
-
-            {/* Drawer — slides from LEFT */}
-            <motion.aside
-              key="drawer"
-              variants={drawerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="fixed top-0 left-0 bottom-0 z-50 w-[300px] bg-white shadow-2xl lg:hidden overflow-y-auto flex flex-col"
-            >
-              {/* Drawer header */}
-              <div className="flex items-center justify-between px-5 h-[68px] border-b border-gray-100 shrink-0">
-                <Logo />
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  aria-label="Close menu"
-                  className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
+            className="fixed inset-0 z-[45] bg-white/95 backdrop-blur-xl flex flex-col p-8 pt-24 lg:hidden"
+          >
+            <div className="flex flex-col gap-6">
+              {NAV_ITEMS.map((item, idx) => (
+                <motion.a
+                  key={item.label}
+                  href="#"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + idx * 0.05 }}
+                  className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-4 flex justify-between items-center group"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 1L13 13M13 1L1 13" stroke="#374151" strokeWidth="2" strokeLinecap="round" />
+                  {item.label}
+                  <svg className="w-5 h-5 text-gray-300 group-hover:text-[#0066ff] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6" />
                   </svg>
-                </button>
-              </div>
-
-              {/* Nav list */}
-              <nav className="flex-1 px-3 py-4 space-y-1" aria-label="Mobile navigation">
-                {NAV_ITEMS.map((item, i) => (
-                  <motion.a
-                    key={item.label}
-                    href={item.href || '#'}
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.05 + 0.05 }}
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center justify-between px-3 py-3 rounded-xl text-[14px] font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
-                    {item.label}
-                    {item.dropdown && (
-                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" className="text-gray-400">
-                        <path d="M4 2L8 6L4 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                      </svg>
-                    )}
-                  </motion.a>
-                ))}
-              </nav>
-
-              {/* Mobile CTAs */}
-              <div className="px-4 pb-6 pt-2 space-y-2.5 border-t border-gray-100">
-                <a
-                  href="#"
-                  className="block text-center w-full py-3 rounded-xl text-[14px] font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
-                >
-                  Sign in
-                </a>
-                <a
-                  href="#"
-                  className="block text-center w-full py-3 rounded-xl text-[14px] font-semibold text-white transition-opacity hover:opacity-90"
-                  style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
-                >
-                  Schedule a demo
-                </a>
-              </div>
-            </motion.aside>
-          </>
+                </motion.a>
+              ))}
+            </div>
+            
+            <div className="mt-auto flex flex-col gap-4">
+              <a href="#" className="w-full py-4 text-center font-bold text-gray-900 border border-gray-200 rounded-2xl">
+                Sign in
+              </a>
+              <a href="#" className="w-full py-4 text-center font-bold text-white bg-[#0066ff] rounded-2xl">
+                Schedule a demo
+              </a>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
