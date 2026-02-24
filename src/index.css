@@ -1,11 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* BRAND COLORS */
+  --color-blue-500: #3448ff;
+  --color-blue-hover: #2B3CD5;
+  --color-brand-green: #c3f967;
+
+  /* TRANSITIONS */
+  --transition-duration: 250ms;
+  --transition-ease: var(--transition-ease-in-out);
+}
 
 :root {
   /* PRODUCTION COLOR SYSTEM */
-  --blue-500: #3448ff;
-  --blue-hover: #2B3CD5;
   --white: #ffffff;
   --black: #000000;
   --grey-50: #f1f1f1;
@@ -13,36 +20,21 @@
   --blue-grey-700: #364153;
   --grey-1000: #97a3b6;
 
-  /* MAPPING VARIABLES FOR COMPONENTS */
-  --_apps---colors--foreground: var(--black);
-  --_apps---colors--background: var(--white);
-  --_apps---colors--border: #ebebeb;
-
+  /* THEME DEFAULTS */
   --theme--surface: var(--white);
   --theme--onsurface: var(--black);
 
   /* TYPOGRAPHYStack */
-  --_apps---typography--body-font: "Helvetica Now", "Inter", -apple-system, sans-serif;
-  --_apps---typography--button-font: "Degular Display", "Montserrat", sans-serif;
+  --font-body: "Helvetica Now", "Inter", -apple-system, sans-serif;
+  --font-logo: "Montserrat", sans-serif;
 
-  /* BUTTON DEFAULTS */
-  --button-bg-color: #3448FF;
-  --button-text-color: #FFFFFF;
-  --button-hover-bg-color: #2B3CD5;
-  --button-border-radius: 10em;
+  /* BUTTON CONSTANTS */
   --button-padding-x: 1.25em;
   --button-padding-y: 0.5em;
-  --button-font-size: 1rem;
-  --button-letter-spacing: 0.01em;
-
-  /* TRANSITIONS */
-  --transition-duration: 250ms;
-  --transition-ease: cubic-bezier(0.77, 0, 0.18, 1);
 }
 
 @layer base {
   html {
-    /* Safety reset */
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
@@ -52,20 +44,32 @@
   body {
     background-color: var(--white);
     color: var(--black);
-    font-family: var(--_apps---typography--body-font);
+    font-family: var(--font-body);
     line-height: 1.2;
     min-height: 100vh;
+    @apply m-0 p-0 overflow-x-hidden;
   }
 }
 
-@layer components {
+@utility c-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 90em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
 
-  /* 1:1 Nav Container Architecture */
-  .c-nav-container {
-    @apply w-full flex items-center justify-between;
-    max-width: 90em;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 1.25rem;
-  }
+@utility c-sonar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: 10em;
+  text-transform: uppercase;
+  transition: all 250ms ease-in-out;
+  font-family: var(--font-logo);
 }

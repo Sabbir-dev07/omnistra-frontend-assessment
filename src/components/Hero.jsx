@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { SonarButton } from './ui/SonarButton';
 
 /**
  * Hero section — styled to match Chargeflow's light, clean aesthetic.
@@ -68,23 +69,12 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center"
         >
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.04, boxShadow: '0 8px 28px rgba(0,102,255,0.38)' }}
-            whileTap={{ scale: 0.97 }}
-            className="px-7 py-3.5 rounded-full text-[15px] font-semibold text-white shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #0066ff 0%, #0044cc 100%)' }}
-          >
+          <SonarButton color="blue" href="#" className="w-[200px]">
             Get started for free
-          </motion.a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.03, borderColor: '#93c5fd' }}
-            whileTap={{ scale: 0.97 }}
-            className="px-7 py-3.5 rounded-full text-[15px] font-semibold text-gray-700 bg-white border border-gray-200 shadow-sm hover:border-blue-300 transition-colors"
-          >
-            Schedule a demo →
-          </motion.a>
+          </SonarButton>
+          <SonarButton color="white" href="#" className="w-[200px]">
+            Schedule a demo
+          </SonarButton>
         </motion.div>
 
         {/* Social proof */}
