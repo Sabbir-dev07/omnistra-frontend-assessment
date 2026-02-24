@@ -15,7 +15,7 @@ function App() {
 
       <main>
         {/* pt-[88px] clears the fixed navbar height with some breathing room */}
-        <div className="pt-[88px]">
+        <div className="pt-[140px]">
           <Hero />
         </div>
 
