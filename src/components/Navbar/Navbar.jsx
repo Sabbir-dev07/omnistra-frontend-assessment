@@ -7,6 +7,7 @@ import { NavLink } from './NavLink';
 import { Hamburger } from './Hamburger';
 import { AnnouncementBar } from './AnnouncementBar';
 import { Dropdown } from './Dropdown';
+import { MobileMenu } from './MobileMenu';
 
 // ─── Data (Definitive) ────────────────────────────────────────────────────────
 const NAV_LINKS = [
@@ -43,7 +44,13 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col bg-black">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 flex flex-col transition-colors duration-300 ${
+          scrolled
+            ? 'bg-white/90 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)]'
+            : 'bg-transparent'
+        }`}
+      >
         {/* Definitive 40px Announcement Bar */}
         <AnnouncementBar />
 
@@ -65,6 +72,7 @@ export default function Navbar() {
                     label={link.label}
                     hasDropdown={link.dropdown}
                     isActive={activeMenu === link.label}
+                    scrolled={scrolled}
                     onEnter={() => link.dropdown && handleEnter(link.label)}
                     onLeave={() => link.dropdown && handleLeave()}
                   />
@@ -75,7 +83,12 @@ export default function Navbar() {
             {/* 3. Action Buttons (Right) */}
             <div className="flex-1 flex justify-end items-center gap-[2.5em]">
                {/* Sign In Link */}
-               <a href="#" className="hidden lg:flex items-center gap-1 text-[0.825rem] font-bold uppercase tracking-[0.05em] text-white hover:text-blue-500 transition-colors group">
+               <a
+                 href="#"
+                 className={`hidden lg:flex items-center gap-1 text-[0.825rem] font-bold uppercase tracking-[0.05em] hover:text-blue-500 transition-colors group ${
+                   scrolled ? 'text-gray-950' : 'text-white'
+                 }`}
+               >
                  SIGN IN 
                  <svg className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 13 14" fill="none">
                     <path d="M1.8 12.5423L0.54 11.2823L10.188 1.7063L10.152 2.5523L5.886 2.5883H1.17V0.950296H12.132V11.9123H10.494V7.1783L10.53 2.7863L11.268 3.0023L1.8 12.5423Z" fill="currentColor"></path>
@@ -120,37 +133,3 @@ export default function Navbar() {
     </>
   );
 }
-
-const MobileMenu = ({ isOpen, onClose, items }) => (
-  <AnimatePresence>
-    {isOpen && (
-      <>
-        <motion.div 
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 z-[60] backdrop-blur-sm lg:hidden" 
-          onClick={onClose} 
-        />
-        <motion.div
-          initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
-          transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
-          className="fixed left-0 top-0 bottom-0 bg-black z-[70] w-[300px] shadow-2xl p-8 flex flex-col border-r border-white/10 lg:hidden"
-        >
-          <div className="mt-20 flex flex-col gap-1">
-            {items.map(item => (
-              <a key={item.label} href="#" className="py-4 text-[1rem] font-bold uppercase tracking-[0.05em] border-b border-white/5 flex justify-between items-center text-white hover:text-blue-500 transition-colors">
-                {item.label}
-                <svg className="w-3.5 h-3.5 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </a>
-            ))}
-          </div>
-          <div className="mt-auto flex flex-col gap-3">
-              <SonarButton color="blue" className="w-full">sign up</SonarButton>
-              <a href="#" className="text-center text-white font-bold uppercase tracking-[0.05em] py-4">sign in</a>
-          </div>
-        </motion.div>
-      </>
-    )}
-  </AnimatePresence>
-);

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 /**
  * 1:1 Nav Link (Dark Theme Refactor).
  */
-export const NavLink = ({ label, hasDropdown = false, isActive = false, onEnter, onLeave }) => {
+export const NavLink = ({ label, hasDropdown = false, isActive = false, scrolled = false, onEnter, onLeave }) => {
   return (
     <li 
       className="relative flex items-center group"
@@ -12,13 +12,21 @@ export const NavLink = ({ label, hasDropdown = false, isActive = false, onEnter,
     >
       <div className="c-nav_link flex items-center gap-[0.5em] cursor-pointer relative py-2">
         {/* Link Text - Precise white typography */}
-        <span className="c-text-4 text-[0.825rem] font-bold text-white uppercase tracking-[0.05em] transition-colors group-hover:text-blue-500 leading-[1.2]">
+        <span
+          className={`c-text-4 text-[0.825rem] font-bold uppercase tracking-[0.05em] transition-colors group-hover:text-blue-500 leading-[1.2] ${
+            scrolled ? 'text-gray-950' : 'text-white'
+          }`}
+        >
           {label}
         </span>
 
         {/* Vertical Arrow SVG */}
         {hasDropdown && (
-          <div className="c-nav-link_arrow w-[0.6em] h-[0.6em] flex items-center justify-center shrink-0 text-white/40 group-hover:text-blue-500">
+          <div
+            className={`c-nav-link_arrow w-[0.6em] h-[0.6em] flex items-center justify-center shrink-0 group-hover:text-blue-500 ${
+              scrolled ? 'text-gray-400' : 'text-white/40'
+            }`}
+          >
             <motion.div
               animate={{ rotate: isActive ? 180 : 0 }}
               transition={{ duration: 0.25, ease: "easeInOut" }}
