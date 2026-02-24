@@ -8,10 +8,10 @@ import { Hamburger } from './Hamburger';
 import { AnnouncementBar } from './AnnouncementBar';
 import { Dropdown } from './Dropdown';
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Data (Definitive) ────────────────────────────────────────────────────────
 const NAV_LINKS = [
   { label: 'Product',     dropdown: true },
-  { label: 'Customers',    dropdown: true }, // Customers also has a dropdown on live site
+  { label: 'Customers',    dropdown: true },
   { label: 'Pricing',      href: '#' },
   { label: 'Integrations', dropdown: true },
   { label: 'Resources',    dropdown: true },
@@ -43,25 +43,27 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col font-['Montserrat']">
-        {/* Exact 40px Marquee Bar */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col font-['Helvetica_Now','Arial',sans-serif]">
+        {/* Definitive 40px Announcement Bar */}
         <AnnouncementBar />
 
-        {/* Brand Navigation */}
+        {/* Primary Navigation Shell */}
         <nav
-          className={`transition-all duration-300 w-full flex justify-center ${
+          className={`transition-all duration-250 w-full flex justify-center ${
             scrolled 
-              ? 'bg-white/90 backdrop-blur-[25px] border-b border-gray-100 py-3' 
-              : 'bg-transparent py-5'
+              ? 'bg-white/90 backdrop-blur-[20px] border-b border-[#ebebeb] py-2 shadow-sm' 
+              : 'bg-transparent py-4'
           }`}
         >
-          {/* 1:1 .c-nav-container (90em / 1440px) with 18px padding */}
-          <div className="c-nav-container w-full max-w-[90em] px-[18px] flex items-center justify-between">
+          {/* 1:1 .c-nav-container (90em / 1440px) from styles */}
+          <div className="c-nav-container w-full max-w-[90em] px-5 lg:px-[18px] flex items-center justify-between pointer-events-auto">
             
             {/* Logo Group */}
-            <Logo scrolled={scrolled} />
+            <div className="shrink-0">
+               <Logo scrolled={scrolled} />
+            </div>
 
-            {/* Desktop Navigation Links */}
+            {/* Desktop Navigation Link Array */}
             <ul className="hidden lg:flex items-center gap-[40px]">
               {NAV_LINKS.map((link) => (
                 <NavLink 
@@ -75,7 +77,7 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* Action Buttons Section (.c-nav-right_wrapper) */}
+            {/* Action Buttons (.c-nav-right_wrapper) */}
             <div className="hidden lg:flex items-center gap-[12px] shrink-0">
                <div className="c-nav_buttons-wrapper cc-nav flex items-center gap-[12px]">
                   <SonarButton color="transparent">sign in</SonarButton>
@@ -84,21 +86,22 @@ export default function Navbar() {
                </div>
             </div>
 
-            {/* Mobile Hamburger SVG (Definitive structural match) */}
+            {/* Mobile Interface */}
             <div className="lg:hidden flex items-center">
               <Hamburger isOpen={mobOpen} onClick={() => setMobOpen(!mobOpen)} />
             </div>
           </div>
         </nav>
 
-        {/* Dropdown Portal */}
+        {/* Mega-Dropdown System */}
         <AnimatePresence>
           {activeMenu === 'Product' && (
             <motion.div 
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="absolute top-[calc(100%-10px)] left-0 right-0 flex justify-center pt-2"
+              exit={{ opacity: 0, y: 12 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute top-[calc(100%-8px)] left-0 right-0 flex justify-center pointer-events-auto"
               onMouseEnter={() => handleEnter('Product')}
               onMouseLeave={() => handleLeave()}
             >
@@ -108,7 +111,7 @@ export default function Navbar() {
         </AnimatePresence>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Identical Typography) */}
       <MobileMenu 
         isOpen={mobOpen} 
         onClose={() => setMobOpen(false)} 
@@ -118,35 +121,37 @@ export default function Navbar() {
   );
 }
 
-// Internal Mobile Menu (Simplified but font-consistent)
+// Internal Mobile Drawer
 const MobileMenu = ({ isOpen, onClose, items }) => (
   <AnimatePresence>
     {isOpen && (
       <>
         <motion.div 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/20 z-[60] lg:hidden" 
+          className="fixed inset-0 bg-black/30 z-[60] backdrop-blur-sm lg:hidden" 
           onClick={onClose} 
         />
         <motion.div
           initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
           transition={{ duration: 0.5, ease: [0.77, 0, 0.18, 1] }}
-          className="fixed left-0 top-0 bottom-0 bg-white z-[70] w-[320px] shadow-2xl p-8 flex flex-col font-['Montserrat'] lg:hidden"
+          className="fixed left-0 top-0 bottom-0 bg-white z-[70] w-[300px] shadow-2xl p-8 flex flex-col font-['Helvetica_Now','Arial',sans-serif] lg:hidden"
         >
-          <div className="mt-20 flex flex-col gap-2">
+          <div className="mt-20 flex flex-col gap-1">
             {items.map(item => (
-              <a key={item.label} href="#" className="py-4 text-[18px] font-[800] uppercase tracking-wider border-b border-gray-100 flex justify-between items-center text-gray-900 overflow-hidden">
+              <a key={item.label} href="#" className="py-4 text-[1rem] font-[500] uppercase tracking-[0.05em] border-b border-[#f1f1f1] flex justify-between items-center text-[#030303]">
                 {item.label}
-                <svg className="w-4 h-4 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
+                <svg className="w-3.5 h-3.5 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </a>
             ))}
           </div>
-          <div className="mt-auto flex flex-col gap-4">
-              <SonarButton color="transparent" className="w-full">sign in</SonarButton>
-              <SonarButton color="white" className="w-full">sign up</SonarButton>
+          <div className="mt-auto flex flex-col gap-3">
               <SonarButton color="blue" className="w-full">schedule a demo</SonarButton>
+              <div className="flex gap-2">
+                 <SonarButton color="white" className="flex-1">sign up</SonarButton>
+                 <SonarButton color="transparent" className="flex-1">sign in</SonarButton>
+              </div>
           </div>
         </motion.div>
       </>
