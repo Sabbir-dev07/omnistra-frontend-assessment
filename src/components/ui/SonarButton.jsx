@@ -1,31 +1,30 @@
 import { motion } from 'framer-motion';
 
 /**
- * Definitive 1:1 Sonar Button (Refactored from computed styles).
- * Uses exact em-based padding, production blue (#3448FF), and 10em radius.
+ * 1:1 Sonar Button (Refactored to use DEFINITIVE production variables).
  */
 export const SonarButton = ({ children, color = 'blue', href = '#', className = '' }) => {
   const colorMap = {
-    blue: 'bg-[#3448ff] text-white hover:bg-[#2B3CD5]',
+    blue: 'bg-[var(--button-bg-color)] text-[var(--button-text-color)] hover:bg-[var(--button-hover-bg-color)]',
     black: 'bg-black text-white hover:bg-gray-900',
-    white: 'bg-white text-gray-900 border border-[#eee] hover:border-[#3448ff] shadow-sm',
-    transparent: 'bg-transparent text-gray-950 hover:text-[#3448ff]'
+    white: 'bg-white text-[var(--lightmode--onsurface)] border border-[var(--_apps---colors--border)] hover:border-[var(--blue-500)] shadow-sm',
+    transparent: 'bg-transparent text-[var(--_apps---colors--foreground)] hover:text-[var(--blue-500)]'
   };
 
   const gradientStyle = color === 'gradient' ? {
-    background: 'linear-gradient(135deg, #3448ff 0%, #7443ff 100%)',
+    background: 'linear-gradient(135deg, var(--blue-500) 0%, var(--primary) 100%)',
   } : {};
 
   return (
     <motion.a 
       href={href}
-      className={`c-sonar-button w-inline-block flex items-center justify-center gap-[0.75em] px-[1.25em] py-[0.5em] rounded-[10em] transition-all duration-250 ease-in-out group select-none ${colorMap[color] || ''} ${className}`}
+      className={`c-sonar-button flex items-center justify-center gap-[0.75em] transition-all duration-250 ease-in-out group select-none ${colorMap[color] || ''} ${className}`}
       style={gradientStyle}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.98 }}
     >
       <div className="c-text-wr">
-        <p className="text-[1rem] font-[400] tracking-[0.01em] uppercase whitespace-nowrap leading-[1.3]">
+        <p className="whitespace-nowrap">
           {children}
         </p>
       </div>
