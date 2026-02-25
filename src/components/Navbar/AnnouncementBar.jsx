@@ -1,37 +1,39 @@
 import { motion } from 'framer-motion';
 
+const ANNOUNCEMENT_TEXT = 'ANNOUNCING OUR $35M SERIES A FUNDING TO TAKE DOWN FRIENDLY FRAUD — READ MORE ->';
+
 /**
- * 1:1 Chargeflow Announcement Bar (from definitive styles).
- * Exact 40px height, black background, and neon-lime text (#C3F967).
+ * AnnouncementBar — 40px black bar with infinite horizontal marquee.
+ * Neon-lime (#C3F967) separator bolts, white uppercase text.
  */
 export const AnnouncementBar = () => {
-  const text = "ANNOUNCING OUR $35M SERIES A FUNDING TO TAKE DOWN FRIENDLY FRAUD - READ MORE →";
-  
+  // Repeat text enough times to fill 200% width
+  const items = Array.from({ length: 10 }, (_, i) => i);
+
   return (
-    <div className="bg-black h-[40px] flex items-center overflow-hidden whitespace-nowrap select-none relative z-[60] border-b border-white/5 font-['Montserrat']">
+    <div className="bg-black select-none border-b border-white/5" style={{ height: '24px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
       <motion.div
+        className="flex items-center gap-0"
         animate={{ x: ['0%', '-50%'] }}
-        transition={{
-          duration: 30, // Slightly slower for better readability
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        className="flex gap-16"
+        transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+        style={{ willChange: 'transform' }}
       >
-        <div className="flex gap-16 items-center">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="flex items-center gap-6">
-              <span className="text-[#C3F967] text-[15px]">⚡</span>
-              <a
-                href="#"
-                className="text-[11px] font-[900] text-white uppercase tracking-[0.05em] hover:opacity-80 transition-opacity"
-              >
-                {text}
-              </a>
-              <span className="text-[#C3F967] text-[15px]">⚡</span>
-            </div>
-          ))}
-        </div>
+        {/* Render 2 full sets so the -50% loop is seamless */}
+        {[0, 1].map((set) => (
+          <div key={set} className="flex items-center">
+            {items.map((i) => (
+              <div key={i} className="flex items-center gap-0 whitespace-nowrap">
+                <span className="text-[#C3F967] text-[13px] px-5 leading-none">⚡</span>
+                <a
+                  href="#"
+                  className="text-white text-[9px] font-[900] uppercase tracking-[0.06em] hover:text-[#C3F967] transition-colors duration-150"
+                >
+                  {ANNOUNCEMENT_TEXT}
+                </a>
+              </div>
+            ))}
+          </div>
+        ))}
       </motion.div>
     </div>
   );

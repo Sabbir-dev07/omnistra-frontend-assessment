@@ -8,25 +8,10 @@ import { Hamburger } from './Hamburger';
 import { AnnouncementBar } from './AnnouncementBar';
 import { Dropdown } from './Dropdown';
 import { MobileMenu } from './MobileMenu';
+import { NAV_LINKS, DROPDOWN_REGISTRY } from './NavbarData';
 
-// ─── Data (Definitive) ────────────────────────────────────────────────────────
-const NAV_LINKS = [
-  { label: 'Product',     dropdown: true },
-  { label: 'Customers',    dropdown: true },
-  { label: 'Pricing',      href: '#' },
-  { label: 'Integrations', dropdown: true },
-  { label: 'Resources',    dropdown: true },
-  { label: 'Company',      dropdown: true },
-];
 
-const PRODUCTS_ITEMS = [
-  { title: 'Prevent',    badge: 'NEW',  desc: 'Stop friendly fraud & prevent the next chargeback.', icon: '🛡️' },
-  { title: 'Automation', badge: null,   desc: 'Fully automated recovery with a 4× ROI guarantee.',    icon: '⚡' },
-  { title: 'Alerts',     badge: null,   desc: 'Cut 90% of chargebacks before they happen.',           icon: '🔔' },
-  { title: 'Insights',   badge: 'FREE', desc: 'Bird’s-eye view into your payments & chargebacks.',    icon: '📊' },
-  { title: 'Connect',    badge: 'NEW',  desc: 'Integrate via Embedding, Whitelabel or API.',         icon: '🔗' },
-];
-
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 export default function Navbar() {
   const scrolled = useScroll(10);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -34,102 +19,144 @@ export default function Navbar() {
   const hoverTimer = useRef(null);
 
   const handleEnter = useCallback((label) => {
-    clearTimeout(hoverTimer.current);
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
     setActiveMenu(label);
   }, []);
 
   const handleLeave = useCallback(() => {
-    hoverTimer.current = setTimeout(() => setActiveMenu(null), 100);
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => setActiveMenu(null), 300);
   }, []);
+
+  const closeMenuImmediate = useCallback(() => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    setActiveMenu(null);
+  }, []);
+
+  const activeDropdown = activeMenu ? DROPDOWN_REGISTRY[activeMenu] : null;
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 flex flex-col transition-colors duration-300 ${
-          scrolled
-            ? 'bg-white/90 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)]'
-            : 'bg-transparent'
-        }`}
-      >
-        {/* Definitive 40px Announcement Bar */}
-        <AnnouncementBar />
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none px-4">
+        <div className="pointer-events-auto">
+          <AnnouncementBar />
+        </div>
 
-        {/* Primary Navigation Shell */}
-        <nav className="w-full h-[84px] flex justify-center items-center relative px-10">
-          <div className="c-nav-container w-full flex items-center justify-between">
-            
-            {/* 1. Logo (Left) */}
-            <div className="flex-1 flex justify-start">
-               <Logo scrolled={scrolled} />
-            </div>
+        <div className="w-full flex justify-center items-center relative pt-[12px] mb-[48px] pointer-events-auto">
+          {/* MASTER MEGA PANEL CONTAINER */}
+          <motion.div 
+            initial={false}
+            animate={{ 
+              backgroundColor: activeDropdown || scrolled ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0)',
+              backdropFilter: activeDropdown || scrolled ? 'blur(32px)' : 'blur(0px)',
+              borderColor: activeDropdown || scrolled ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0)',
+            }}
+            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+            className="w-full max-w-[1440px] rounded-[32px] border transition-all duration-300 overflow-hidden flex flex-col shadow-[0_24px_48px_-12px_rgba(0,0,0,0.5)]"
+          >
+            {/* Top Bar: Logo — Links — CTAs */}
+            <div className="w-full h-[60px] flex items-center justify-between relative px-4">
+              
+              {/* 1. Left Slot (Logo) - Animates Inward */}
+              <motion.div 
+                animate={{ paddingLeft: activeDropdown ? '7rem' : '1.5rem' }}
+                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                className="flex items-center z-20"
+              >
+                <Logo scrolled={scrolled} active={!!activeDropdown} />
+              </motion.div>
 
-            {/* 2. Centered Pill Navigation (Center) */}
-            <div className="hidden lg:flex items-center">
-              <div className="c-nav-pill-wrapper flex items-center gap-[1.5em] h-[48px]">
-                {NAV_LINKS.map((link) => (
-                  <NavLink 
-                    key={link.label}
-                    label={link.label}
-                    hasDropdown={link.dropdown}
-                    isActive={activeMenu === link.label}
-                    scrolled={scrolled}
-                    onEnter={() => link.dropdown && handleEnter(link.label)}
-                    onLeave={() => link.dropdown && handleLeave()}
-                  />
-                ))}
+              {/* 2. Center Pill Slot (ABSOLUTELY LOCKED) */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                <ul className="c-nav-pill-wrapper list-none m-0 p-0 flex items-center gap-1 px-6">
+                  {NAV_LINKS.map((link) => (
+                    <NavLink
+                      key={link.label}
+                      label={link.label}
+                      href={link.href}
+                      hasDropdown={link.dropdown}
+                      isActive={activeMenu === link.label}
+                      scrolled={scrolled}
+                      onMouseEnter={() => {
+                        if (link.dropdown) {
+                          handleEnter(link.label);
+                        } else {
+                          closeMenuImmediate();
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (link.dropdown) handleLeave();
+                      }}
+                    />
+                  ))}
+                </ul>
+              </div>
+
+              {/* 3. Right Slot (CTAs) - Animates Inward */}
+              <motion.div 
+                animate={{ paddingRight: activeDropdown ? '7rem' : '1.5rem' }}
+                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                className="hidden lg:flex items-center gap-5 whitespace-nowrap z-20"
+              >
+                <a
+                  href="#"
+                  className="flex-shrink-0 text-[10px] font-bold uppercase tracking-[0.08em] text-white hover:text-white/80 transition-colors duration-200 flex items-center gap-1.5"
+                >
+                  Sign In 
+                </a>
+                <a
+                  href="#"
+                  className="flex-shrink-0 px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-[#3448ff] hover:bg-[#2B3CD5] transition-all duration-200 rounded-full flex items-center gap-2 shadow-[0_8px_20px_-6px_rgba(52,72,255,0.4)]"
+                >
+                  Sign Up 
+                </a>
+              </motion.div>
+
+              {/* Mobile Hamburger */}
+              <div className="lg:hidden absolute right-6 z-40">
+                <Hamburger
+                  isOpen={mobOpen}
+                  onClick={() => setMobOpen((v) => !v)}
+                  scrolled={scrolled}
+                />
               </div>
             </div>
 
-            {/* 3. Action Buttons (Right) */}
-            <div className="flex-1 flex justify-end items-center gap-[2.5em]">
-               {/* Sign In Link */}
-               <a
-                 href="#"
-                 className={`hidden lg:flex items-center gap-1 text-[0.825rem] font-bold uppercase tracking-[0.05em] hover:text-blue-500 transition-colors group ${
-                   scrolled ? 'text-gray-950' : 'text-white'
-                 }`}
-               >
-                 SIGN IN 
-                 <svg className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 13 14" fill="none">
-                    <path d="M1.8 12.5423L0.54 11.2823L10.188 1.7063L10.152 2.5523L5.886 2.5883H1.17V0.950296H12.132V11.9123H10.494V7.1783L10.53 2.7863L11.268 3.0023L1.8 12.5423Z" fill="currentColor"></path>
-                 </svg>
-               </a>
-
-               {/* Sign Up Button */}
-               <SonarButton color="blue" href="#">SIGN UP</SonarButton>
-
-               {/* Mobile Toggle */}
-               <div className="lg:hidden flex items-center">
-                 <Hamburger isOpen={mobOpen} onClick={() => setMobOpen(!mobOpen)} />
-               </div>
-            </div>
-          </div>
-        </nav>
-
-        {/* Mega-Dropdown System */}
-        <AnimatePresence>
-          {activeMenu && activeMenu !== 'Pricing' && (
-            <motion.div 
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 12 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-[124px] left-0 right-0 flex justify-center pointer-events-auto"
-              onMouseEnter={() => handleEnter(activeMenu)}
-              onMouseLeave={() => handleLeave()}
-            >
-              <Dropdown items={PRODUCTS_ITEMS} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+            {/* Bottom Section: Expanded Dropdown Content */}
+            <AnimatePresence mode="wait">
+              {activeDropdown && (
+                <motion.div
+                  key={activeMenu}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ 
+                    opacity: 1, 
+                    height: 'auto',
+                    paddingLeft: activeDropdown ? '7rem' : '4px',
+                    paddingRight: activeDropdown ? '7rem' : '4px',
+                  }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                  className="w-full border-t border-white/5"
+                  onMouseEnter={() => handleEnter(activeMenu)}
+                  onMouseLeave={handleLeave}
+                >
+                  <div className="py-10 w-full overflow-hidden">
+                    <Dropdown 
+                      type={activeDropdown.type} 
+                      items={activeDropdown.items} 
+                      leftSide={activeDropdown.leftSide}
+                      sidebar={activeDropdown.sidebar}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
       </header>
 
-      {/* Mobile Drawer */}
-      <MobileMenu 
-        isOpen={mobOpen} 
-        onClose={() => setMobOpen(false)} 
-        items={NAV_LINKS} 
-      />
+      {/* Mobile drawer */}
+      <MobileMenu isOpen={mobOpen} onClose={() => setMobOpen(false)} items={NAV_LINKS} />
     </>
   );
 }

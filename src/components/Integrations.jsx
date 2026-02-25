@@ -1,179 +1,138 @@
 import { motion } from 'framer-motion';
 
-// ─── Integration partners (visual match to domu.ai) ─────────────────────────
 const INTEGRATIONS = [
-  { name: 'Salesforce',  abbr: 'SF',  color: '#00A1E0', bg: '#e6f7ff' },
-  { name: 'AWS',         abbr: 'AWS', color: '#FF9900', bg: '#fff8ec' },
-  { name: 'Microsoft',   abbr: 'MS',  color: '#00A4EF', bg: '#e6f7ff' },
-  { name: 'Google Cloud',abbr: 'GC',  color: '#4285F4', bg: '#eaf2ff' },
-  { name: 'Twilio',      abbr: 'TW',  color: '#F22F46', bg: '#fff1f2' },
-  { name: 'Stripe',      abbr: 'ST',  color: '#635BFF', bg: '#f0f0ff' },
-  { name: 'HubSpot',     abbr: 'HS',  color: '#FF7A59', bg: '#fff3ef' },
-  { name: 'Zendesk',     abbr: 'ZD',  color: '#03363D', bg: '#e5f4f5' },
-  { name: 'Pega',        abbr: 'PG',  color: '#00B2A9', bg: '#e5f8f7' },
-  { name: 'Five9',       abbr: 'F9',  color: '#E22E38', bg: '#ffeef0' },
-  { name: 'NICE',        abbr: 'NC',  color: '#005E5D', bg: '#e5f2f2' },
-  { name: 'Genesys',     abbr: 'GN',  color: '#FF4F1F', bg: '#fff2ee' },
-  { name: 'Snowflake',   abbr: 'SN',  color: '#29B5E8', bg: '#eaf8fd' },
-  { name: 'Databricks',  abbr: 'DB',  color: '#FF3621', bg: '#fff2f1' },
-  { name: 'Equifax',     abbr: 'EQ',  color: '#E30B1C', bg: '#fff0f1' },
-  { name: 'Experian',    abbr: 'EX',  color: '#CE0F69', bg: '#fff0f7' },
-  { name: 'TransUnion',  abbr: 'TU',  color: '#2072B6', bg: '#eaf3fc' },
-  { name: 'LexisNexis',  abbr: 'LN',  color: '#E63329', bg: '#fff1f0' },
+  { name: 'Salesforce', color: '#00A1E0' },
+  { name: 'Twilio', color: '#F22F46' },
+  { name: 'AWS', color: '#FF9900' },
+  { name: 'Snowflake', color: '#29B6F6' },
+  { name: 'HubSpot', color: '#FF7A59' },
+  { name: 'Zendesk', color: '#03363D' },
+  { name: 'Microsoft', color: '#00A4EF' },
+  { name: 'GCP', color: '#4285F4' },
+  { name: 'Stripe', color: '#635BFF' },
+  { name: 'Slack', color: '#4A154B' }
 ];
 
-// ─── Stagger container ───────────────────────────────────────────────────────
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
-    },
+const FEATURES = [
+  {
+    title: 'A/B Testing at Scale',
+    desc: 'Rapidly iterate on conversational flows. Test multiple strategies simultaneously to identify the highest performing engagement patterns.',
+    id: '01'
   },
-};
-
-// ─── Individual card reveal ──────────────────────────────────────────────────
-const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.94 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  {
+    title: 'Maximize Right-Party Contacts',
+    desc: 'Reach the right customer at the right time. Our behavioral engine predicts optimal engagement windows to increase resolution rates.',
+    id: '02'
   },
-};
+  {
+    title: 'Omni-Channel Communications',
+    desc: 'Unify Voice, Email, and SMS. Orchestrate a consistent, intelligent experience across every touchpoint in the customer lifecycle.',
+    id: '03'
+  }
+];
 
-// ─── Single logo card ────────────────────────────────────────────────────────
-function LogoCard({ item }) {
-  return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{
-        scale: 1.08,
-        boxShadow: '0 10px 25px rgba(0,0,0,0.10)',
-        borderColor: '#60a5fa', // blue-400
-        y: -4,
-      }}
-      whileTap={{ scale: 0.97 }}
-      transition={{ duration: 0.25, ease: 'easeOut' }}
-      className="group relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-[#1e1e2e] bg-[#111118] cursor-pointer select-none"
-      style={{ minHeight: '92px' }}
-    >
-      {/* Brand-color glow on hover */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at 50% 40%, ${item.color}22 0%, transparent 70%)`,
-        }}
-      />
-
-      {/* Logo tile */}
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-[11px] tracking-wide shrink-0 transition-transform duration-200 group-hover:scale-105"
-        style={{ backgroundColor: item.bg, color: item.color }}
-      >
-        {item.abbr}
-      </div>
-
-      {/* Name label */}
-      <span className="text-[11px] font-medium text-gray-400 group-hover:text-gray-200 transition-colors text-center leading-snug">
-        {item.name}
-      </span>
-    </motion.div>
-  );
-}
-
-// ─── Integrations Section ────────────────────────────────────────────────────
 export default function Integrations() {
   return (
-    <section className="bg-[#0a0a0f] py-20 lg:py-32 px-6 lg:px-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section id="integrations" className="bg-black py-24 lg:py-48 border-t border-white/5 relative overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-6">
+        
+        {/* Header: Exact Domu.ai 1:1 Header */}
+        <div className="flex flex-col mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-3 mb-8"
+          >
+            <div className="w-1.5 h-1.5 rounded-full bg-[#3448ff]" />
+            <span className="text-[11px] font-black text-white/40 uppercase tracking-[0.3em]">Integrations & Features</span>
+          </motion.div>
 
-        {/* ── Section header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12"
-        >
-          <div>
-            {/* Label chip */}
-            <div className="inline-flex items-center gap-2 mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-              <span className="text-[11px] font-semibold text-indigo-400 uppercase tracking-[0.14em]">
-                Integrations
-              </span>
-            </div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[48px] md:text-[64px] font-bold text-white tracking-tighter leading-[1] max-w-[900px]"
+          >
+            A trusted AI partner for <br />
+            <span className="text-white/40 font-medium">financial services.</span>
+          </motion.h2>
+        </div>
 
-            {/* Main heading with gradient */}
-            <h2 className="text-[32px] sm:text-[40px] lg:text-[46px] font-bold leading-[1.12] tracking-tight">
-              <span className="text-white">One platform,&nbsp;</span>
-              <br className="hidden sm:block" />
-              <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: 'linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #a78bfa 100%)',
-                }}
-              >
-                unlimited integrations
-              </span>
-            </h2>
+        {/* Feature Grid: Exact Domu.ai propositions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-32">
+          {FEATURES.map((feature, i) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="group"
+            >
+              <div className="text-[12px] font-black text-[#3448ff] mb-6 tracking-widest">{feature.id}</div>
+              <h3 className="text-white text-[22px] font-bold mb-4 group-hover:text-[#3448ff] transition-colors">{feature.title}</h3>
+              <p className="text-gray-500 text-[15px] leading-relaxed max-w-[340px]">
+                {feature.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
 
-            <p className="mt-4 text-[14px] text-gray-400 max-w-[420px] leading-relaxed">
-              Connect seamlessly with the tools your team already relies on — CRMs, cloud
-              platforms, compliance data providers, and more.
-            </p>
+        {/* One platform, unlimited integrations Section */}
+        <div className="relative pt-24 border-t border-white/5 group">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <motion.h3 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-[32px] md:text-[44px] font-bold text-white tracking-tighter leading-none"
+            >
+              One platform, <br />
+              <span className="text-white/40">unlimited integrations.</span>
+            </motion.h3>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-full bg-white text-black text-[12px] font-black uppercase tracking-widest shadow-lg"
+            >
+                View All Partners
+            </motion.button>
           </div>
 
-          {/* "View all" CTA */}
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.04, boxShadow: '0 0 18px rgba(99,102,241,0.35)' }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.18 }}
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-semibold text-white border border-indigo-500/40 bg-indigo-500/10 hover:bg-indigo-500/20 transition-colors"
-          >
-            View all integrations
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-              <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.a>
-        </motion.div>
-
-        {/* ── Logo grid ── */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-12"
-        >
-          {INTEGRATIONS.map((item) => (
-            <LogoCard key={item.name} item={item} />
-          ))}
-        </motion.div>
-
-        {/* ── Stats strip ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, delay: 0.35 }}
-          className="mt-16 pt-10 border-t border-[#1e1e2e] grid grid-cols-1 sm:grid-cols-3 gap-8 text-center"
-        >
-          {[
-            { value: '50+',           label: 'Integrations available' },
-            { value: 'REST & Webhook',label: 'API-first architecture' },
-            { value: '< 1 day',       label: 'Average setup time' },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="text-2xl font-bold text-white">{s.value}</div>
-              <div className="text-[12px] text-gray-500 mt-1">{s.label}</div>
-            </div>
-          ))}
-        </motion.div>
+          <div className="relative overflow-hidden py-10 rounded-[40px] bg-[#050505] border border-white/5">
+            <motion.div 
+              className="flex gap-10 whitespace-nowrap"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              style={{ width: 'max-content' }}
+            >
+              {[...INTEGRATIONS, ...INTEGRATIONS].map((item, i) => (
+                <div 
+                  key={i}
+                  className="group/card flex items-center gap-6 px-10 py-6 rounded-2xl bg-[#080808] border border-white/5 hover:border-[#3448ff]/30 transition-all duration-500"
+                >
+                  <div 
+                    className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-[18px] text-white/20 group-hover/card:text-white transition-all duration-500"
+                    style={{ background: `${item.color}15`, border: `1px solid ${item.color}30` }}
+                  >
+                    {item.name[0]}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[14px] font-bold text-white uppercase tracking-tight">
+                        {item.name}
+                    </span>
+                    <span className="text-[9px] text-gray-600 font-bold uppercase">Official Partner</span>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+            
+            {/* Gradient Mask for Fade Effect */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+          </div>
+        </div>
 
       </div>
     </section>
