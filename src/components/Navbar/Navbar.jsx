@@ -38,12 +38,12 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none px-4 lg:px-6 pt-4 lg:pt-6">
-        <div className="pointer-events-auto max-w-[1440px] mx-auto w-full">
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none p-0">
+        <div className="pointer-events-auto w-full">
           <AnnouncementBar />
         </div>
 
-        <div className="w-full flex justify-center items-center relative pointer-events-auto">
+        <div className="w-full flex justify-center items-center relative pointer-events-auto px-4 lg:px-6 mt-4 lg:mt-6">
           {/* MASTER MEGA PANEL CONTAINER */}
           <motion.div 
             initial={false}
