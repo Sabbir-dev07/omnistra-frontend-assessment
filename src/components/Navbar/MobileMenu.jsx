@@ -2,122 +2,112 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
 
 const drawerVariants = {
-  hidden: { opacity: 0, y: -20 },
+  hidden: { x: '100%', opacity: 0 },
   visible: { 
+    x: 0, 
     opacity: 1,
-    y: 0,
     transition: { 
       duration: 0.5, 
       ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.1,
+      staggerChildren: 0.06,
       delayChildren: 0.1
     } 
   },
   exit: { 
+    x: '100%', 
     opacity: 0,
-    y: 20,
     transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } 
   },
 };
 
 const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { x: 20, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } },
 };
 
 /**
- * Full-Screen MobileMenu — Premium Vertically Centered Layout.
- * Ensures all content fits elegantly on any screen size.
+ * MobileMenu — Premium Glassmorphic Drawer.
+ * Optimized for content visibility and thematic consistency.
  */
 export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          key="mobile-menu-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-black isolate overflow-y-auto"
-        >
-          {/* Noise/Glow Background Mix */}
-          <div className="absolute inset-0 bg-[#050505] pointer-events-none">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[60vh] bg-gradient-to-b from-[#4f46e5]/10 to-transparent blur-3xl opacity-50" />
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
-          </div>
+        <>
+          {/* Backdrop */}
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onClose}
+            className="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm lg:hidden"
+          />
 
-          <div className="relative min-h-screen flex flex-col p-8 sm:p-12">
-            
+          {/* Premium Dark Drawer */}
+          <motion.div
+            key="drawer"
+            variants={drawerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed top-0 right-0 bottom-0 z-[60] w-[320px] max-w-[85vw] bg-[#080808]/95 backdrop-blur-3xl flex flex-col border-l border-white/[0.08] lg:hidden shadow-[-20px_0_40px_rgba(0,0,0,0.8)]"
+          >
             {/* Header */}
-            <div className="flex items-center justify-between w-full mb-12">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#4f46e5] shadow-[0_0_12px_rgba(79,70,229,1)]" />
-                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-white/30">
-                  Mission Control
+            <div className="flex items-center justify-between px-6 py-6 border-b border-white/[0.05]">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] shadow-[0_0_8px_rgba(79,70,229,0.8)]" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+                  Menu
                 </span>
               </div>
               <button
                 onClick={onClose}
-                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.08] active:scale-95 transition-all duration-300"
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-white/[0.2] transition-all"
+                aria-label="Close menu"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            {/* Main Links Area - Vertically Centered */}
-            <motion.div 
-              variants={drawerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="flex-1 flex flex-col justify-center items-center gap-2 max-w-md mx-auto w-full"
-            >
-              {items.map((item) => (
-                <motion.a
-                  key={item.label}
-                  href={item.href || '#'}
-                  variants={itemVariants}
-                  onClick={onClose}
-                  className="group py-3 w-full text-center"
-                >
-                  <span className="text-[32px] sm:text-[42px] font-bold text-white/90 group-hover:text-white transition-all duration-500 tracking-tighter block relative overflow-hidden">
-                    <motion.span 
-                      whileHover={{ y: -5 }} 
-                      className="block"
-                    >
+            {/* Nav Links - No separate scroll for items, fits entire list nicely */}
+            <div className="flex-1 py-4 overflow-y-auto custom-scrollbar">
+              <div className="flex flex-col">
+                {items.map((item) => (
+                  <motion.a
+                    key={item.label}
+                    href={item.href || '#'}
+                    variants={itemVariants}
+                    className="flex items-center justify-between px-6 py-3.5 group transition-all duration-300"
+                    onClick={onClose}
+                  >
+                    <span className="text-[16px] font-bold text-white/80 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all duration-300 tracking-tight">
                       {item.label}
-                    </motion.span>
-                  </span>
-                  <div className="h-px w-0 group-hover:w-full bg-gradient-to-r from-transparent via-[#4f46e5]/50 to-transparent transition-all duration-700 mx-auto mt-2" />
-                </motion.a>
-              ))}
-            </motion.div>
+                    </span>
+                    <svg className="w-3.5 h-3.5 text-white/10 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M9 18l6-6-6-6" />
+                    </svg>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
 
-            {/* Footer CTAs */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-              className="mt-12 w-full max-w-md mx-auto flex flex-col gap-4"
-            >
-              <Button variant="secondary" size="lg" className="w-full justify-center py-7 rounded-[24px] text-[16px] shadow-[0_24px_48px_-12px_rgba(79,70,229,0.4)]">
+            {/* Premium CTA Footer */}
+            <div className="px-6 py-8 flex flex-col gap-4 border-t border-white/[0.05] bg-white/[0.01]">
+              <Button variant="secondary" size="lg" className="w-full justify-center py-5 rounded-xl shadow-[0_15px_30px_-10px_rgba(79,70,229,0.3)]">
                 Get Started
               </Button>
-              <div className="flex items-center justify-center gap-8 py-4">
-                <a href="#" className="text-[14px] font-bold text-white/40 hover:text-white transition-colors uppercase tracking-widest">
+              <div className="flex flex-col items-center gap-2">
+                <a href="#" className="text-[11px] font-bold text-white/30 hover:text-white transition-colors uppercase tracking-[0.15em] py-2">
                   Sign In
                 </a>
-                <span className="w-1 h-1 rounded-full bg-white/10" />
-                <a href="#" className="text-[14px] font-bold text-white/40 hover:text-white transition-colors uppercase tracking-widest">
-                  Pricing
-                </a>
               </div>
-            </motion.div>
-
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
