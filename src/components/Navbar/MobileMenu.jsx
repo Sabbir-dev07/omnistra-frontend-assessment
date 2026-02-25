@@ -26,8 +26,8 @@ const itemVariants = {
 };
 
 /**
- * MobileMenu — Premium Glassmorphic Drawer.
- * Optimized for content visibility and thematic consistency.
+ * MobileMenu — Premium Glassmorphic Drawer (NO SCROLL).
+ * Designed to fit all content within the viewport without scrolling.
  */
 export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
   return (
@@ -52,10 +52,10 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed top-0 right-0 bottom-0 z-[60] w-[320px] max-w-[85vw] bg-[#080808]/95 backdrop-blur-3xl flex flex-col border-l border-white/[0.08] lg:hidden shadow-[-20px_0_40px_rgba(0,0,0,0.8)]"
+            className="fixed top-0 right-0 bottom-0 z-[60] w-[320px] max-w-[85vw] bg-[#080808]/95 backdrop-blur-3xl flex flex-col border-l border-white/[0.08] lg:hidden shadow-[-20px_0_40px_rgba(0,0,0,0.8)] overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-6 border-b border-white/[0.05]">
+            <div className="flex items-center justify-between px-6 py-6 border-b border-white/[0.05] shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] shadow-[0_0_8px_rgba(79,70,229,0.8)]" />
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
@@ -73,8 +73,8 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
               </button>
             </div>
 
-            {/* Nav Links - No separate scroll for items, fits entire list nicely */}
-            <div className="flex-1 py-4 overflow-y-auto custom-scrollbar">
+            {/* Nav Links - Static container, no scroll */}
+            <div className="flex-1 py-4 flex flex-col justify-center">
               <div className="flex flex-col">
                 {items.map((item) => (
                   <motion.a
@@ -96,7 +96,7 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
             </div>
 
             {/* Premium CTA Footer */}
-            <div className="px-6 py-8 flex flex-col gap-4 border-t border-white/[0.05] bg-white/[0.01]">
+            <div className="px-6 py-8 flex flex-col gap-4 border-t border-white/[0.05] bg-white/[0.01] shrink-0 mt-auto">
               <Button variant="secondary" size="lg" className="w-full justify-center py-5 rounded-xl shadow-[0_15px_30px_-10px_rgba(79,70,229,0.3)]">
                 Get Started
               </Button>
