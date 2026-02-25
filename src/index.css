@@ -206,11 +206,12 @@
     font-weight: 700;
     color: var(--color-text-primary);
     letter-spacing: -0.04em;
-    line-height: 1.05;
+    line-height: 1.15;
+    padding-bottom: 0.1em;
   }
 
   .section-h .dim {
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
     font-weight: 500;
   }
 

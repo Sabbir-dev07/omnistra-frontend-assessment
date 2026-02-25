@@ -37,7 +37,7 @@ export default function Hero() {
           <div className="overflow-hidden mb-8">
             <motion.h1
               variants={variants.fadeUp(0.1, 60)}
-              className="section-h max-w-[850px]"
+              className="section-h max-w-[850px] py-1"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 5.5rem)' }}
             >
               AI Agents Built For{' '}
