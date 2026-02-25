@@ -62,7 +62,7 @@ export default function Hero() {
             <Button variant="secondary" size="lg" href="#" icon="→" className="group">
               Start a Pilot
             </Button>
-            <span className="text-white/10 text-lg font-thin hidden sm:block">|</span>
+            <span className="text-white/30 text-lg font-thin hidden sm:block">|</span>
             <Button variant="outline" size="lg" href="#" icon="→" className="group">
               Learn More
             </Button>

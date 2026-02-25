@@ -86,7 +86,7 @@ export default function Compliance() {
                   <p className="text-[12px] font-black text-white/80 uppercase tracking-[0.15em] group-hover:text-[#4f46e5] transition-colors leading-snug">
                     {b.name}
                   </p>
-                  <p className="text-[13px] text-white/30 font-normal leading-snug">{b.text}</p>
+                  <p className="text-[13px] text-white/50 font-normal leading-snug">{b.text}</p>
                 </motion.div>
               ))}
             </div>
