@@ -24,7 +24,7 @@ export const NavLink = ({
     >
       <a
         href={href}
-        className="relative flex items-center gap-1 px-1.5 py-2 text-[13px] font-[800] uppercase tracking-[0.05em] transition-colors duration-300 select-none text-white hover:text-white/80"
+        className="relative flex items-center gap-0.5 px-1 py-2 text-[13px] font-[800] uppercase tracking-[0.05em] transition-colors duration-300 select-none text-white hover:text-white/80"
       >
         {/* Label */}
         <span

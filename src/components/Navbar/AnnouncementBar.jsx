@@ -2,10 +2,7 @@ import { motion } from 'framer-motion';
 
 const ANNOUNCEMENT_TEXT = 'ANNOUNCING OUR $35M SERIES A FUNDING TO TAKE DOWN FRIENDLY FRAUD — READ MORE ->';
 
-/**
- * AnnouncementBar — 40px black bar with infinite horizontal marquee.
- * Neon-lime (#C3F967) separator bolts, white uppercase text.
- */
+
 export const AnnouncementBar = () => {
   // Repeat text enough times to fill 200% width
   const items = Array.from({ length: 10 }, (_, i) => i);

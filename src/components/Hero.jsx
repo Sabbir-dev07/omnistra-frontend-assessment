@@ -8,7 +8,7 @@ export default function Hero() {
   const y2 = useTransform(scrollY, [0, 500], [0, -50]);
 
   return (
-    <section className="relative bg-black flex flex-col justify-center overflow-hidden mt-[55px] min-h-[80vh]">
+    <section className="relative bg-black flex flex-col justify-center overflow-hidden min-h-[80vh]">
       {/* ── Page-level radial gradient ── */}
       <motion.div
         className="absolute inset-0 pointer-events-none"

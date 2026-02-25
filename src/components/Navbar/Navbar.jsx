@@ -58,7 +58,7 @@ export default function Navbar() {
             className="w-full max-w-[1440px] rounded-[32px] border overflow-hidden flex flex-col shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]"
           >
             {/* Top Bar: Logo — Links — CTAs */}
-            <div className="w-full h-16 flex items-center justify-between relative px-6 lg:px-10">
+            <div className="w-full h-16 flex items-center justify-between relative px-6 lg:px-8">
               
               {/* 1. Left Slot (Logo) */}
               <motion.div 
@@ -89,7 +89,7 @@ export default function Navbar() {
               {/* 3. Right Slot (CTAs) */}
               <motion.div 
                 animate={{ x: activeDropdown ? -20 : 0 }}
-                className="hidden lg:flex items-center gap-6 z-20"
+                className="hidden lg:flex items-center gap-4 z-20"
               >
                 <motion.a
                   href="#"

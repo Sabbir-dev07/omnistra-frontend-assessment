@@ -78,7 +78,7 @@ function App() {
       <AnimatedBackground />
       <Navbar />
 
-      <main className="relative z-10 pt-12">
+      <main className="relative z-10 pt-32 lg:pt-40">
         <Hero />
         
         <ScrollReveal>
