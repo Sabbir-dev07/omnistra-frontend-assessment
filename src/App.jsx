@@ -1,63 +1,107 @@
 import './index.css';
 import Navbar from './components/Navbar/Navbar';
+import Hero from './components/Hero';
 import Integrations from './components/Integrations';
 import MissionControl from './components/MissionControl';
 import Compliance from './components/Compliance';
 import Agents from './components/Agents';
-import { ChatBubble } from './components/ui/ChatBubble';
+import ClientCases from './components/ClientCases';
+import { Logo } from './components/Navbar/Logo';
+import { motion } from 'framer-motion';
 
-/**
- * Root App — Navbar (fixed 40px + 72px = 112px) → Hero → Integrations → Footer
- */
+const FOOTER_LINKS = [
+  { label: 'Product',   href: '#' },
+  { label: 'Customers', href: '#' },
+  { label: 'Pricing',   href: '#' },
+  { label: 'Company',   href: '#' },
+];
+
+const LEGAL_LINKS = ['Privacy', 'Terms', 'Contact'];
+
+function Footer() {
+  return (
+    <footer className="bg-[#020202] border-t border-white/[0.04] relative overflow-hidden">
+      {/* Subtle glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#4f46e5]/[0.035] blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container relative z-10 py-16 lg:py-24">
+        {/* Top row */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12 mb-20">
+          <Logo active={false} scrolled={true} />
+          
+          <nav className="flex flex-wrap items-center gap-x-10 gap-y-4">
+            {FOOTER_LINKS.map(link => (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                whileHover={{ y: -2, color: '#fff' }}
+                className="text-[14px] font-bold text-white/30 uppercase tracking-[0.2em] transition-colors"
+                title={link.label}
+              >
+                {link.label}
+              </motion.a>
+            ))}
+          </nav>
+        </div>
+
+        {/* Bottom row */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10 border-t border-white/[0.04]">
+          <p className="text-[12px] text-white/20 font-medium tracking-tight">
+            © 2026 Omnistra. Built for the era of intelligent servicing.
+          </p>
+          
+          <div className="flex items-center gap-8">
+            {LEGAL_LINKS.map(link => (
+              <motion.a
+                key={link}
+                href="#"
+                whileHover={{ color: '#fff' }}
+                className="text-[12px] text-white/20 font-medium hover:text-white transition-colors"
+                title={link}
+              >
+                {link}
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+import AnimatedBackground from './components/ui/AnimatedBackground';
+import ScrollReveal from './components/ui/ScrollReveal';
+
 function App() {
   return (
-    <div className="min-h-screen bg-black">
-      {/* Fixed header: 24px announcement bar + 12px top + 48px nav + 48px bottom = 132px */}
+    <div className="min-h-screen bg-black selection:bg-[#4f46e5]/30">
+      <AnimatedBackground />
       <Navbar />
 
-      <main className="pt-[72px]">
+      <main className="relative z-10 pt-12">
+        <Hero />
+        
+        <ScrollReveal>
+          <Integrations />
+        </ScrollReveal>
 
-        {/* Domu-style Section Suite */}
-        <Integrations />
-        <MissionControl />
-        <Compliance />
-        <Agents />
+        <ScrollReveal>
+          <MissionControl />
+        </ScrollReveal>
 
-        {/* Footer */}
-        <footer className="bg-[#050508] border-t border-[#1a1a26] py-12 px-6 lg:px-16">
-          <div className="max-w-[1320px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            {/* Logo */}
-            <div className="flex items-center gap-2.5 select-none">
-              <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-[#3448ff]"
-              >
-                <svg width="18" height="14" viewBox="0 0 31 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M20.4591 23.996L16.4118 18.3721C16.4118 18.3721 24.1707 12.0345 26.791 6.16874C26.7723 6.14897 17.7054 10.7632 17.7054 10.7632L14.0061 5.62295C20.772 0.983474 24.7214 1.69848 25.7767 3.16527L30.1387 9.22647C31.7551 11.4726 26.029 19.6752 20.4587 23.996H20.4591ZM9.95881 -0.000976563L14.0061 5.62295C14.0061 5.62295 6.24723 11.9605 3.62693 17.8263C3.64561 17.846 12.7126 13.2319 12.7126 13.2319L16.4118 18.3721C9.64591 23.0115 5.69657 22.2965 4.64125 20.8297L0.278806 14.7685C-1.33764 12.5224 4.38893 4.31985 9.95881 -0.000976563Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </div>
-              <span className="text-[15px] font-bold text-white tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Charge<span className="text-[#3448ff]">flow</span>
-              </span>
-            </div>
+        <ScrollReveal>
+          <Compliance />
+        </ScrollReveal>
 
-            <p className="text-[11px] text-gray-600 text-center">
-              © {new Date().getFullYear()} Chargeflow, Inc. · Omnistra Frontend Assessment
-            </p>
+        <ScrollReveal>
+          <Agents />
+        </ScrollReveal>
 
-            <div className="flex gap-5 text-[11px] text-gray-600">
-              <a href="#" className="hover:text-gray-400 transition-colors">Privacy</a>
-              <a href="#" className="hover:text-gray-400 transition-colors">Terms</a>
-              <a href="#" className="hover:text-gray-400 transition-colors">Contact</a>
-            </div>
-          </div>
-        </footer>
-        {/* Floating Chat Bubble */}
-        <ChatBubble />
+        <ScrollReveal>
+          <ClientCases />
+        </ScrollReveal>
+
+        <Footer />
       </main>
     </div>
   );

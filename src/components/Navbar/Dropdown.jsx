@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+ import { motion } from 'framer-motion';
 
 // ─── SVG Illustrations ───────────────────────────────────────────────────────
 
@@ -8,9 +8,9 @@ const Illustrations = {
       <circle cx="100" cy="100" r="40" stroke="white" strokeWidth="0.5" strokeDasharray="4 4" />
       <circle cx="100" cy="100" r="60" stroke="white" strokeWidth="0.5" strokeDasharray="2 2" />
       <path d="M100 0 L100 200 M0 100 L200 100" stroke="white" strokeWidth="0.2" />
-      <circle cx="100" cy="60" r="3" fill="#3448ff" />
-      <circle cx="140" cy="100" r="3" fill="#3448ff" />
-      <circle cx="60" cy="100" r="3" fill="#3448ff" />
+      <circle cx="100" cy="60" r="3" fill="#4f46e5" />
+      <circle cx="140" cy="100" r="3" fill="#4f46e5" />
+      <circle cx="60" cy="100" r="3" fill="#4f46e5" />
     </svg>
   ),
   Orbit: () => (
@@ -19,7 +19,7 @@ const Illustrations = {
         <circle key={i} cx="100" cy="100" r={r} stroke="white" strokeWidth="0.5" opacity={0.3} />
       ))}
       <motion.circle 
-        cx="100" cy="100" r="60" stroke="#3448ff" strokeWidth="1" strokeDasharray="10 180"
+        cx="100" cy="100" r="60" stroke="#4f46e5" strokeWidth="1" strokeDasharray="10 180"
         animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
     </svg>
@@ -27,21 +27,21 @@ const Illustrations = {
   Wave: () => (
     <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" viewBox="0 0 200 200" fill="none">
       <path d="M0 140 Q 50 100 100 140 T 200 140" stroke="white" strokeWidth="0.5" />
-      <path d="M0 150 Q 50 110 100 150 T 200 150" stroke="#3448ff" strokeWidth="0.5" opacity="0.5" />
+      <path d="M0 150 Q 50 110 100 150 T 200 150" stroke="#4f46e5" strokeWidth="0.5" opacity="0.5" />
       <path d="M0 160 Q 50 120 100 160 T 200 160" stroke="white" strokeWidth="0.5" opacity="0.2" />
     </svg>
   ),
   Layers: () => (
     <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none" viewBox="0 0 200 200" fill="none">
       <rect x="60" y="60" width="80" height="50" rx="4" stroke="white" strokeWidth="0.5" transform="rotate(-10 100 100)" />
-      <rect x="60" y="75" width="80" height="50" rx="4" stroke="#3448ff" strokeWidth="0.5" transform="rotate(-10 100 100)" />
+      <rect x="60" y="75" width="80" height="50" rx="4" stroke="#4f46e5" strokeWidth="0.5" transform="rotate(-10 100 100)" />
       <rect x="60" y="90" width="80" height="50" rx="4" stroke="white" strokeWidth="0.5" transform="rotate(-10 100 100)" />
     </svg>
   )
 };
 
 const badgeColors = {
-  NEW: { bg: 'rgba(52, 72, 255, 0.15)', text: '#7c8aff', border: 'rgba(52, 72, 255, 0.3)' },
+  NEW: { bg: 'rgba(79, 70, 229, 0.1)', text: '#818cf8', border: 'rgba(79, 70, 229, 0.2)' },
   FREE: { bg: 'rgba(255, 255, 255, 0.05)', text: '#94a3b8', border: 'rgba(255, 255, 255, 0.1)' },
   'FOR PLATFORMS': { bg: 'rgba(255, 255, 255, 0.08)', text: '#fff', border: 'rgba(255, 255, 255, 0.2)' },
   HIRING: { bg: 'rgba(16, 185, 129, 0.1)', text: '#10b981', border: 'rgba(16, 185, 129, 0.2)' },
@@ -67,12 +67,12 @@ function CardWrapper({ children, className = "", illustration }) {
   return (
     <motion.div 
       whileHover={{ y: -4 }}
-      className={`group relative p-6 rounded-[24px] bg-[#0c0c0c] border border-white/5 hover:border-white/10 transition-all duration-500 overflow-hidden cursor-pointer h-full flex flex-col ${className}`}
+      className={`group relative p-6 rounded-3xl bg-[#0c0c0c] border border-white/5 hover:border-white/10 transition-all duration-500 overflow-hidden cursor-pointer h-full flex flex-col ${className}`}
     >
       <Illustration />
       <div className="relative z-10 h-full flex flex-col">{children}</div>
       {/* Localized Glow */}
-      <div className="absolute -inset-1 bg-gradient-to-br from-[#3448ff]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl pointer-events-none" />
+      <div className="absolute -inset-1 bg-linear-to-br from-[#4f46e5]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl pointer-events-none" />
     </motion.div>
   );
 }
@@ -84,16 +84,16 @@ function ProductCard({ item, index }) {
   return (
     <CardWrapper illustration={illustrations[index % illustrations.length]}>
       <div className="flex items-center mb-4">
-        <span className="text-[14px] font-bold text-white group-hover:text-[#3448ff] transition-colors uppercase tracking-tight">
+        <span className="text-[14px] font-bold text-white group-hover:text-[#4f46e5] transition-colors uppercase tracking-tight">
           {item.title}
         </span>
         <Badge text={item.badge} />
       </div>
-      <p className="text-[12px] text-gray-500 leading-[1.6] group-hover:text-gray-400 transition-colors flex-grow">
+      <p className="text-[12px] text-gray-500 leading-[1.6] group-hover:text-gray-400 transition-colors grow">
         {item.desc}
       </p>
       {/* Action Indicator */}
-      <div className="mt-8 flex items-center gap-2 text-[10px] font-bold text-[#3448ff] opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+      <div className="mt-8 flex items-center gap-2 text-[10px] font-bold text-[#4f46e5] opacity-0 group-hover:opacity-100 transform -translate-x-2.5 group-hover:translate-x-0 transition-all duration-300">
         LEARN MORE <span className="text-xs">→</span>
       </div>
     </CardWrapper>
@@ -116,12 +116,12 @@ function CustomersLayout({ data }) {
   return (
     <div className="flex gap-3 w-full">
       <div className="w-[35%]">
-        <CardWrapper className="h-full flex flex-col justify-center text-center p-10 bg-[#111] border-[#3448ff]/10">
+        <CardWrapper className="h-full flex flex-col justify-center text-center p-10 bg-[#111] border-[#4f46e5]/10">
           <h3 className="text-[18px] font-bold text-white mb-3 uppercase tracking-tight">{data.leftSide.title}</h3>
           <p className="text-[13px] text-gray-500 mb-8">{data.leftSide.desc}</p>
           <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
             <motion.div 
-              className="h-full bg-[#3448ff]"
+              className="h-full bg-[#4f46e5]"
               animate={{ x: ['-100%', '100%'] }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
             />
@@ -131,7 +131,7 @@ function CustomersLayout({ data }) {
       <div className="w-[65%] grid grid-cols-2 gap-3">
         {data.items.map((item) => (
           <CardWrapper key={item.title}>
-            <div className="text-[9px] font-black text-[#3448ff] uppercase tracking-[0.15em] mb-3 px-2 py-1 bg-[#3448ff]/5 rounded-full w-fit">
+            <div className="text-[9px] font-black text-[#4f46e5] uppercase tracking-[0.15em] mb-3 px-2 py-1 bg-[#4f46e5]/5 rounded-full w-fit">
               {item.category}
             </div>
             <div className="text-[16px] font-bold text-white mb-2">{item.title}</div>
@@ -148,8 +148,8 @@ function IntegrationsLayout({ data }) {
     <div className="flex gap-3 w-full">
        <div className="w-[50%]">
           <CardWrapper className="h-full flex flex-col justify-center items-center text-center p-10 bg-[#0a0a0a]">
-              <div className="w-16 h-16 rounded-[20px] bg-[#3448ff]/5 border border-[#3448ff]/20 flex items-center justify-center mb-6">
-                <div className="w-8 h-8 rounded-full bg-[#3448ff] blur-xl opacity-30" />
+              <div className="w-16 h-16 rounded-[20px] bg-[#4f46e5]/5 border border-[#4f46e5]/20 flex items-center justify-center mb-6">
+                <div className="w-8 h-8 rounded-full bg-[#4f46e5] blur-xl opacity-30" />
                 <span className="text-2xl relative z-10 opacity-80">🔌</span>
               </div>
               <h3 className="text-[18px] font-bold text-white mb-3 uppercase tracking-tight">{data.leftSide.title}</h3>
@@ -159,11 +159,11 @@ function IntegrationsLayout({ data }) {
        <div className="w-[50%] flex flex-col gap-2">
           {data.items.map(item => (
             <div key={item.title} className="group flex items-center gap-4 p-4 rounded-[18px] hover:bg-white/[0.04] transition-all cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center font-bold text-[14px] text-white group-hover:border-[#3448ff]/20 group-hover:bg-[#3448ff]/5 transition-all">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center font-bold text-[14px] text-white group-hover:border-[#4f46e5]/20 group-hover:bg-[#4f46e5]/5 transition-all">
                     {item.title[0]}
                 </div>
                 <div>
-                   <div className="text-[14px] font-bold text-white mb-1 group-hover:text-[#3448ff] transition-colors">{item.title}</div>
+                   <div className="text-[14px] font-bold text-white mb-1 group-hover:text-[#4f46e5] transition-colors">{item.title}</div>
                    <div className="text-[11px] text-gray-600 leading-tight">{item.desc}</div>
                 </div>
             </div>
@@ -186,10 +186,10 @@ function ResourcesLayout({ data }) {
         </div>
         <div className="w-[30%] flex flex-col gap-3">
             {data.sidebar.map(item => (
-                <div key={item.title} className="group p-6 rounded-[24px] bg-white/[0.02] border border-white/5 hover:border-[#3448ff]/20 transition-all cursor-pointer">
-                    <div className="text-[9px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4 group-hover:text-[#3448ff] transition-colors">{item.title}</div>
+                <div key={item.title} className="group p-6 rounded-[24px] bg-white/[0.02] border border-white/5 hover:border-[#4f46e5]/20 transition-all cursor-pointer">
+                    <div className="text-[9px] font-black text-gray-600 uppercase tracking-[0.2em] mb-4 group-hover:text-[#4f46e5] transition-colors">{item.title}</div>
                     <div className="text-[13px] font-bold text-white mb-1">{item.desc}</div>
-                    <div className="text-[11px] text-[#3448ff] opacity-0 group-hover:opacity-100 transition-opacity">View Details →</div>
+                    <div className="text-[11px] text-[#4f46e5] opacity-0 group-hover:opacity-100 transition-opacity">View Details →</div>
                 </div>
             ))}
         </div>
@@ -203,7 +203,7 @@ function CompanyLayout({ items }) {
       {items.map((item) => (
         <CardWrapper key={item.title}>
           <div className="flex items-center mb-3">
-            <div className="text-[14px] font-bold text-white group-hover:text-[#3448ff] transition-colors uppercase tracking-tight">{item.title}</div>
+            <div className="text-[14px] font-bold text-white group-hover:text-[#4f46e5] transition-colors uppercase tracking-tight">{item.title}</div>
             <Badge text={item.badge} />
           </div>
           <p className="text-[12px] text-gray-600 group-hover:text-gray-500 transition-colors">{item.desc}</p>

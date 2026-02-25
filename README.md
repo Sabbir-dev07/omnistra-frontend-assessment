@@ -1,78 +1,72 @@
 # Omnistra Frontend Assessment
 
-A pixel-perfect React clone of two UI sections from production websites, built with **Vite + React (JS) + Tailwind CSS v4 + Framer Motion**.
+This project is a high-fidelity frontend implementation task focused on replicating complex UI components with pixel-level accuracy, smooth interactions, and modern web standards.
+
+## Project Overview
+
+The objective was to recreate two specific high-end SaaS UI sections:
+1.  **Navbar Section** (Reference: [Chargeflow.io](https://www.chargeflow.io/))
+2.  **Integrations Section** (Reference: [Domu.ai](https://domu.ai/))
+
+## Core Features
+
+### 1. Navigation Bar (Chargeflow.io)
+- **Mega Menu Registry:** A data-driven dropdown system supporting complex layouts for 'Product', 'Customers', and 'Resources'.
+- **Glassmorphism & Scroll Effects:** Dynamic header that transitions from transparent to a blurred, solid background upon scrolling.
+- **Micro-interactions:** Hover-aware animations using `framer-motion` for smooth height and opacity transitions.
+- **Mobile Responsive:** A fully custom hamburger menu and slide-out mobile drawer.
+
+### 2. Integrations Section (Domu.ai)
+- **Feature Grid:** A 3-column interactive grid with subtle top-gradient highlights and hover-triggered color shifts.
+- **Infinite Marquee:** A high-performance horizontal scrolling track for integration partners developed with optimized linear animations.
+- **Scroll Reveal:** Components use `whileInView` observers for elegant entry animations.
+- **Pixel Accuracy:** Precise spacing, typography (tracking and weights), and alignment matching the Domu.ai aesthetic.
 
 ## Tech Stack
-
-| Library | Version | Purpose |
-|---|---|---|
-| React | 19 | UI framework |
-| Vite | 7 | Build tool / dev server |
-| Tailwind CSS | v4 | Utility-first styling |
-| Framer Motion | latest | All animations & transitions |
-
-## Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
+- **Frontend Framework:** React 19 (Vite)
+- **Styling:** Tailwind CSS 4.0
+- **Animations:** Framer Motion
+- **Icons:** Phosphor Icons / Custom SVG Icons
+- **Deployment:** Optimized for modern V8 engines (Chrome/Edge)
 
 ## Project Structure
-
-```
+```text
 src/
 ├── components/
-│   ├── Navbar.jsx        ← Chargeflow navbar clone
-│   ├── Hero.jsx          ← Hero placeholder section
-│   └── Integrations.jsx  ← Domu integrations clone
-├── App.jsx
-├── index.css             ← Tailwind + CSS theme tokens
-└── main.jsx
+│   ├── Navbar/          # Main navigation components & registry
+│   ├── ui/              # Reusable UI primitives (Button, SonarButton, etc.)
+│   ├── Integrations.jsx # Domu.ai section implementation
+│   └── ...              # Other page sections
+├── hooks/               # Custom hooks (e.g., useScroll)
+├── utils/               # Animation variants & helpers
+└── main.jsx             # Entry point
 ```
 
-## Sections Cloned
+## Setup & Installation
 
-### 1. Navbar — [chargeflow.io](https://www.chargeflow.io/)
-- **Announcement bar** at top
-- **Logo**: Stylized "chargeflow" brand with lightning bolt SVG icon
-- **Nav items**: Products, Customers, Pricing, Integrations, Resources, Company
-- **Products dropdown**: 5 product items with descriptions and badges, Framer Motion animation
-- **Scroll effect**: Navbar from transparent → white + shadow at scrollY > 10px
-- **CTAs**: "Sign in" text link + "Schedule a demo" gradient pill button
-- **Mobile**: Hamburger → full-height slide-in drawer
+1.  **Clone the repository:**
+    ```bash
+    git clone [repository-url]
+    cd omnistra-frontend-assessment
+    ```
 
-### 2. Integrations — [domu.ai](https://domu.ai/)
-- **Heading**: "One platform, unlimited integrations" with indigo gradient text
-- **Grid**: 18 integration partner cards — 6 cols (desktop) → 4/3/2 cols (responsive)
-- **Hover**: scale(1.08) + glow shadow + brand-color radial gradient + lift
-- **Scroll animation**: Staggered fade-in+slide-up with Framer Motion whileInView
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-## Design Assumptions
+3.  **Run development server:**
+    ```bash
+    npm run dev
+    ```
 
-- **Fonts**: Inter (Google Fonts, 300–800 weights)
-- **Chargeflow colors**: Purple #7c3aed, deep purple #4f46e5
-- **Domu dark palette**: Background #0a0a0f, cards #111118, accent #6366f1
-- **Integration logos**: Colored abbreviation tiles (placeholder for real SVG assets)
+4.  **Build for production:**
+    ```bash
+    npm run build
+    ```
 
-## Deploy
-
-### Vercel
-```bash
-npm i -g vercel && vercel
-```
-
-### Netlify
-```bash
-npm run build
-# Drop the dist/ folder on netlify.com/drop
-```
+## Implementation Goals Achieved
+- [x] **Pixel-level UI accuracy:** Strict adherence to reference design spacing and alignment.
+- [x] **Interaction Fidelity:** Smooth transition timings and hover state logic.
+- [x] **Responsiveness:** Fluid layouts across desktop, tablet, and mobile breakpoints.
+- [x] **Code Quality:** Modular architecture, clean component hierarchy, and reusable logic.

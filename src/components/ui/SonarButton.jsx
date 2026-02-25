@@ -7,9 +7,9 @@ import { motion } from 'framer-motion';
 export const SonarButton = ({ children, color = 'blue', href = '#', className = '' }) => {
   const styles = {
     blue: {
-      background: '#3448ff',
+      background: '#4f46e5',
       color: '#fff',
-      hoverBg: '#2B3CD5',
+      hoverBg: '#4338ca',
     },
     white: {
       background: '#fff',

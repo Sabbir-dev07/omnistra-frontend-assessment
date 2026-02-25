@@ -1,113 +1,173 @@
 import { motion } from 'framer-motion';
+import { Button } from './ui/Button';
 
-/**
- * Mission Control Section: Your Mission Control for End-To-End Servicing
- * Matches domu.ai's centralized command center visual.
- */
+const STATS = [
+  { label: 'Conversion',   val: '64.2%', color: '#4f46e5', pct: 64 },
+  { label: 'Settlement',   val: '82.8%', color: '#c3f967', pct: 83 },
+  { label: 'Compliance',   val: '100%',  color: '#fff',    pct: 100 },
+];
+
+const AGENTS_MOCK = [
+  { id: 1, name: 'Agent_01', status: 'Active' },
+  { id: 2, name: 'Agent_02', status: 'Processing' },
+  { id: 3, name: 'Agent_03', status: 'Active' },
+];
+
+import { variants } from '../utils/motion';
+
 export default function MissionControl() {
   return (
-    <section className="bg-black py-24 lg:py-40 border-t border-white/5 relative overflow-hidden">
-      {/* Background Subtle Grid or Glow */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-[#3448ff]/10 blur-[120px]" />
-      </div>
+    <section id="mission-control" className="section bg-transparent py-24 lg:py-32">
+      <div className="container relative z-10">
 
-      <div className="max-w-[1440px] mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center">
-          
+        {/* ── Header (centered) ── */}
+        <div className="flex flex-col items-center text-center mb-16 lg:mb-24">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            variants={variants.fadeUp(0)}
+            initial="initial"
+            whileInView="animate"
             viewport={{ once: true }}
-            className="mb-8 px-4 py-1.5 rounded-full bg-[#111] border border-white/10"
+            className="tag mb-6 shadow-[0_0_20px_rgba(79,70,229,0.15)]"
           >
-            <span className="text-[10px] font-black text-[#3448ff] uppercase tracking-[0.2em]">Dashboard Control</span>
+            <span className="eyebrow-dot !w-[5px] !h-[5px]" />
+            Dashboard Control
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={variants.fadeUp(0.1)}
+            initial="initial"
+            whileInView="animate"
             viewport={{ once: true }}
-            className="text-[40px] md:text-[64px] font-bold text-white tracking-tight leading-[1.1] mb-8"
+            className="section-h max-w-[900px] leading-[1.05]"
           >
-            Your Mission Control for <br />
-            <span className="text-white/40">End-To-End Servicing.</span>
+            Your Mission Control for{' '}
+            <br />
+            <span className="dim">End-To-End Servicing.</span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={variants.fadeUp(0.2)}
+            initial="initial"
+            whileInView="animate"
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-[18px] text-gray-400 max-w-[720px] leading-relaxed mb-16"
+            className="section-sub mx-auto text-center max-w-[720px] mt-8"
           >
             A centralized command center for high-stakes recovery. Track performance and agent activity in real-time with a continuous data stream designed for rapid, informed decision-making.
           </motion.p>
+        </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="w-full max-w-[1100px] aspect-[16/9] rounded-[40px] border border-white/10 bg-[#080808] relative overflow-hidden group shadow-2xl"
-          >
-            {/* Mock Dashboard UI Elements */}
-            <div className="absolute inset-0 p-8 flex flex-col">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/20" />
-                </div>
-                <div className="px-4 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] text-white/40 font-bold uppercase tracking-widest">
-                  Live Stream: Active
-                </div>
+        {/* ── Dashboard Mock ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 60 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-[1240px] mx-auto rounded-[48px] border border-white/[0.08] bg-[#050505] overflow-hidden shadow-[0_80px_160px_rgba(0,0,0,0.8)] group relative"
+        >
+          {/* Window chrome */}
+          <div className="flex items-center justify-between px-10 py-6 border-b border-white/[0.05] bg-white/[0.02]">
+            <div className="flex gap-2.5">
+              <div className="w-3 h-3 rounded-full bg-red-500/30" />
+              <div className="w-3 h-3 rounded-full bg-yellow-400/30" />
+              <div className="w-3 h-3 rounded-full bg-green-500/30" />
+            </div>
+            <div className="flex items-center gap-3 px-5 py-2 rounded-full bg-[#0f0f0f] border border-white/[0.08] text-[10px] text-[#4f46e5] font-black uppercase tracking-[0.2em]">
+              <span className="w-[6px] h-[6px] rounded-full bg-[#4f46e5] animate-pulse inline-block" />
+              Live · Monitoring Active
+            </div>
+            <div className="w-20" />
+          </div>
+
+          {/* Panel grid */}
+          <div className="p-8 lg:p-10 grid grid-cols-12 gap-8 min-h-[500px]">
+            {/* Main metric */}
+            <div className="col-span-12 lg:col-span-8 bg-[#080808] rounded-[32px] border border-white/[0.05] p-10 lg:p-14 flex flex-col relative overflow-hidden">
+              <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.25em] mb-4">Total Recovery Yield</p>
+              <h4 className="text-[56px] lg:text-[72px] font-bold text-white tracking-tighter leading-none mb-12">
+                $14,248,392
+              </h4>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-3 gap-8 mt-auto relative z-10">
+                {STATS.map(s => (
+                  <div key={s.label} className="flex flex-col gap-3">
+                    <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{s.label}</span>
+                    <span className="text-[24px] lg:text-[28px] font-bold text-white">{s.val}</span>
+                    <div className="h-[4px] bg-white/[0.08] rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${s.pct}%` }}
+                        transition={{ duration: 2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                        className="h-full rounded-full"
+                        style={{ backgroundColor: s.color }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
 
-              <div className="flex-1 grid grid-cols-3 gap-6">
-                <div className="col-span-2 rounded-2xl bg-white/5 border border-white/5 p-6 relative overflow-hidden">
-                   <div className="h-full w-full bg-gradient-to-t from-[#3448ff]/20 to-transparent absolute bottom-0 left-0" />
-                   <div className="relative text-left">
-                      <div className="text-[12px] font-bold text-white/40 uppercase mb-2">Performance Yield</div>
-                      <div className="text-[48px] font-black text-white">$4.2M</div>
-                   </div>
-                </div>
-                <div className="flex flex-col gap-4">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="flex-1 rounded-2xl bg-white/5 border border-white/5 p-4 flex flex-col justify-center items-start">
-                        <div className="text-[10px] font-bold text-white/30 uppercase">Agent {i} Status</div>
-                        <div className="text-[16px] font-bold text-green-400 flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                            Active
+              {/* Grid background */}
+              <div
+                className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '32px 32px' }}
+              />
+            </div>
+
+            {/* Sidebar */}
+            <div className="col-span-12 lg:col-span-4 flex flex-row lg:flex-col gap-8">
+              {/* Agents */}
+              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.05] p-8 lg:p-10">
+                <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.25em] mb-6">Active Agents</p>
+                <div className="flex flex-col gap-5">
+                  {AGENTS_MOCK.map((a, idx) => (
+                    <motion.div 
+                      key={a.id} 
+                      initial={{ opacity: 0, x: 10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 1 + idx * 0.1 }}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/[0.1] overflow-hidden" />
+                        <div>
+                          <p className="text-[14px] font-bold text-white/90 leading-none mb-1">{a.name}</p>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">{a.status}</p>
                         </div>
-                    </div>
+                      </div>
+                      <div className="w-2 h-2 rounded-full bg-[#c3f967] shadow-[0_0_10px_#c3f967]" />
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            </div>
-            
-            {/* Hover Shine */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#3448ff]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="mt-16 flex flex-col items-center gap-6"
-          >
-            <button className="px-10 py-4 rounded-full bg-white text-black text-[14px] font-black uppercase tracking-widest hover:scale-105 transition-transform">
-              Start a Pilot
-            </button>
-            <div className="flex gap-12 grayscale opacity-40">
-                {['Y Combinator', 'AWS', 'Microsoft'].map(name => (
-                  <span key={name} className="text-[12px] font-bold text-white uppercase tracking-widest">{name}</span>
-                ))}
+              {/* Sentiment */}
+              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.05] p-8 lg:p-10 flex flex-col justify-center">
+                <p className="text-[10px] font-black text-[#4f46e5] uppercase tracking-[0.25em] mb-4">Sentiment Score</p>
+                <div className="flex items-baseline gap-3">
+                  <span className="text-[48px] lg:text-[56px] font-bold text-white tracking-tighter leading-none">98.2</span>
+                  <span className="text-[15px] font-black text-[#c3f967] tracking-tight">↑ 2.4%</span>
+                </div>
+              </div>
             </div>
-          </motion.div>
+          </div>
 
-        </div>
+          {/* Hover tint animation */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#4f46e5]/[0.05] via-transparent to-[#c3f967]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+        </motion.div>
+
+        {/* ── CTA ── */}
+        <motion.div
+          variants={variants.fadeUp(0.6)}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          className="mt-16 flex flex-col items-center gap-8"
+        >
+          <Button variant="secondary" size="lg" href="#" icon="→" className="group">
+            Explore Dashboard
+          </Button>
+        </motion.div>
+
       </div>
     </section>
   );
