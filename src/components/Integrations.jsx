@@ -40,7 +40,7 @@ function IntegrationCard({ item }) {
     <motion.div
       variants={variants.cardHover}
       whileHover="hover"
-      className="shrink-0 group/card flex items-center gap-4 px-6 py-4 rounded-2xl border border-white/[0.08] bg-[#080808] hover:border-[#4f46e5]/30 transition-all duration-500 cursor-pointer select-none shadow-lg"
+      className="shrink-0 group/card flex items-center gap-4 px-6 py-4 rounded-2xl border border-white/[0.08] bg-[#080808] hover:border-white/20 transition-all duration-500 cursor-pointer select-none shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_20px_40px_rgba(0,0,0,0.4)]"
     >
       {/* Icon */}
       <motion.div
@@ -99,7 +99,7 @@ export default function Integrations() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="group bg-[#060606] hover:bg-[#080808] transition-all duration-500 p-10 lg:p-14 flex flex-col gap-6 cursor-pointer relative"
+              className="group bg-[#060606] hover:bg-[#080808] border border-white/[0.03] hover:border-white/20 transition-all duration-500 p-10 lg:p-14 flex flex-col gap-6 cursor-pointer relative shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
             >
               <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#4f46e5]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <span className="text-[12px] font-black text-[#4f46e5] tracking-[0.2em]">{f.id}</span>

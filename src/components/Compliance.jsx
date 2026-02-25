@@ -81,7 +81,7 @@ export default function Compliance() {
                   transition={{ delay: 0.2 + i * 0.1, duration: 0.7 }}
                   whileHover="hover"
                   variants={variants.cardHover}
-                  className="card !p-6 rounded-[24px] flex flex-col gap-3 cursor-pointer bg-[#080808] border-white/[0.05] hover:border-[#4f46e5]/40 transition-all shadow-xl"
+                  className="card !p-6 rounded-[24px] flex flex-col gap-3 cursor-pointer bg-[#080808] border-white/[0.05] hover:border-white/20 transition-all shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_20px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_32px_64px_rgba(0,0,0,0.6)]"
                 >
                   <p className="text-[12px] font-black text-white/80 uppercase tracking-[0.15em] group-hover:text-[#4f46e5] transition-colors leading-snug">
                     {b.name}
@@ -103,7 +103,7 @@ export default function Compliance() {
                 transition={{ delay: 0.1 * i, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                 whileHover="hover"
                 variants={variants.cardHover}
-                className="group card p-10 lg:p-12 rounded-[40px] relative overflow-hidden cursor-pointer bg-[#080808] border-white/[0.05] hover:border-[#4f46e5]/30 transition-all duration-500 shadow-2xl"
+                className="group card p-10 lg:p-12 rounded-[40px] relative overflow-hidden cursor-pointer bg-[#080808] border-white/[0.05] hover:border-white/20 transition-all duration-500 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_20px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_32px_64px_rgba(0,0,0,0.6)]"
               >
                 {/* Ghost number animation */}
                 <motion.span 

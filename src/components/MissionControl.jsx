@@ -62,7 +62,7 @@ export default function MissionControl() {
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-[1240px] mx-auto rounded-[48px] border border-white/[0.08] bg-[#050505] overflow-hidden shadow-[0_80px_160px_rgba(0,0,0,0.8)] group relative"
+          className="w-full max-w-[1240px] mx-auto rounded-[48px] border border-white/[0.12] bg-[#050505] overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_80px_160px_rgba(0,0,0,0.8)] group relative"
         >
           {/* Window chrome */}
           <div className="flex items-center justify-between px-10 py-6 border-b border-white/[0.05] bg-white/[0.02]">
@@ -81,7 +81,7 @@ export default function MissionControl() {
           {/* Panel grid */}
           <div className="p-8 lg:p-10 grid grid-cols-12 gap-8 min-h-[500px]">
             {/* Main metric */}
-            <div className="col-span-12 lg:col-span-8 bg-[#080808] rounded-[32px] border border-white/[0.05] p-10 lg:p-14 flex flex-col relative overflow-hidden">
+            <div className="col-span-12 lg:col-span-8 bg-[#080808] rounded-[32px] border border-white/[0.08] p-10 lg:p-14 flex flex-col relative overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
               <p className="text-[11px] font-black text-white/50 uppercase tracking-[0.25em] mb-4">Total Recovery Yield</p>
               <h4 className="text-[56px] lg:text-[72px] font-bold text-white tracking-tighter leading-none mb-12">
                 $14,248,392
@@ -116,7 +116,7 @@ export default function MissionControl() {
             {/* Sidebar */}
             <div className="col-span-12 lg:col-span-4 flex flex-row lg:flex-col gap-8">
               {/* Agents */}
-              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.05] p-8 lg:p-10">
+              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.08] p-8 lg:p-10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
                 <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.25em] mb-6">Active Agents</p>
                 <div className="flex flex-col gap-5">
                   {AGENTS_MOCK.map((a, idx) => (
@@ -141,7 +141,7 @@ export default function MissionControl() {
               </div>
 
               {/* Sentiment */}
-              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.05] p-8 lg:p-10 flex flex-col justify-center">
+              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.08] p-8 lg:p-10 flex flex-col justify-center shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
                 <p className="text-[10px] font-black text-[#4f46e5] uppercase tracking-[0.25em] mb-4">Sentiment Score</p>
                 <div className="flex items-baseline gap-3">
                   <span className="text-[48px] lg:text-[56px] font-bold text-white tracking-tighter leading-none">98.2</span>

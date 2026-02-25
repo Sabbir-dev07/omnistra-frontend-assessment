@@ -73,7 +73,7 @@ export default function Agents() {
               transition={{ delay: i * 0.15, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               whileHover="hover"
               variants={variants.cardHover}
-              className="group card rounded-[32px] flex flex-col overflow-hidden p-0 cursor-pointer bg-[#080808] border-white/[0.05] hover:border-[#4f46e5]/30 transition-all duration-500 shadow-2xl"
+              className="group card rounded-[32px] flex flex-col overflow-hidden p-0 cursor-pointer bg-[#080808] border-white/[0.05] hover:border-white/20 transition-all duration-500 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_32px_64px_rgba(0,0,0,0.6)]"
             >
               {/* Avatar zone */}
               <div className="relative flex justify-center pt-12 pb-10 bg-[#0a0a0a] border-b border-white/[0.05]">
