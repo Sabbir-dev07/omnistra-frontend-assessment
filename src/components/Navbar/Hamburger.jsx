@@ -3,7 +3,7 @@
  * Accepts scrolled prop to invert colors when navbar is white.
  */
 export const Hamburger = ({ isOpen, onClick, scrolled = false }) => {
-  const lineColor = scrolled ? '#111827' : '#ffffff';
+  const lineColor = '#ffffff';
 
   return (
     <button
