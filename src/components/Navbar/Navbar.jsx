@@ -43,7 +43,7 @@ export default function Navbar() {
           <AnnouncementBar />
         </div>
 
-        <div className="w-full flex justify-center items-center relative pointer-events-auto px-4 lg:px-6 mt-4 lg:mt-6">
+        <div className="w-full flex justify-center items-center relative pointer-events-auto px-4 lg:px-6 mt-0">
           {/* MASTER MEGA PANEL CONTAINER */}
           <motion.div 
             initial={false}
