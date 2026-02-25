@@ -110,7 +110,7 @@ export default function Agents() {
                   </p>
                 </div>
 
-                <p className="text-[14px] text-white/40 leading-[1.8] mb-8 font-normal flex-1 group-hover:text-white/60 transition-colors text-center md:text-left">{agent.desc}</p>
+                <p className="text-[14px] text-white/60 leading-[1.8] mb-8 font-normal flex-1 group-hover:text-white/80 transition-colors text-center md:text-left">{agent.desc}</p>
 
                 {/* Features */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 mb-10">
@@ -120,7 +120,7 @@ export default function Agents() {
                         className="w-[4px] h-[4px] rounded-full shrink-0"
                         style={{ backgroundColor: agent.color }}
                       />
-                      <span className="text-[12px] text-white/30 font-medium leading-tight group-hover:text-white/50 transition-colors">{f}</span>
+                      <span className="text-[12px] text-white/50 font-medium leading-tight group-hover:text-white/80 transition-colors">{f}</span>
                     </div>
                   ))}
                 </div>
@@ -128,7 +128,7 @@ export default function Agents() {
                 {/* CTA row */}
                 <motion.button
                   whileHover={{ x: 5 }}
-                  className="text-white/30 text-[11px] font-black uppercase tracking-[0.25em] flex items-center gap-3 group/btn hover:text-white transition-colors mt-auto"
+                  className="text-white/50 text-[11px] font-black uppercase tracking-[0.25em] flex items-center gap-3 group/btn hover:text-white transition-colors mt-auto"
                 >
                   View Profile
                   <motion.div 
@@ -150,7 +150,7 @@ export default function Agents() {
           className="mt-24 pt-10 border-t border-white/[0.05] flex items-center justify-center gap-8"
         >
           <div className="w-12 h-px bg-white/[0.08]" />
-          <p className="text-[10px] text-white/20 font-bold uppercase tracking-[0.4em] text-center">
+          <p className="text-[10px] text-white/50 font-bold uppercase tracking-[0.4em] text-center">
             Powered by Omnistra Proprietary Model Governance
           </p>
           <div className="w-12 h-px bg-white/[0.08]" />

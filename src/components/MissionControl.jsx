@@ -82,7 +82,7 @@ export default function MissionControl() {
           <div className="p-8 lg:p-10 grid grid-cols-12 gap-8 min-h-[500px]">
             {/* Main metric */}
             <div className="col-span-12 lg:col-span-8 bg-[#080808] rounded-[32px] border border-white/[0.05] p-10 lg:p-14 flex flex-col relative overflow-hidden">
-              <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.25em] mb-4">Total Recovery Yield</p>
+              <p className="text-[11px] font-black text-white/50 uppercase tracking-[0.25em] mb-4">Total Recovery Yield</p>
               <h4 className="text-[56px] lg:text-[72px] font-bold text-white tracking-tighter leading-none mb-12">
                 $14,248,392
               </h4>
@@ -91,7 +91,7 @@ export default function MissionControl() {
               <div className="grid grid-cols-3 gap-8 mt-auto relative z-10">
                 {STATS.map(s => (
                   <div key={s.label} className="flex flex-col gap-3">
-                    <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{s.label}</span>
+                    <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">{s.label}</span>
                     <span className="text-[24px] lg:text-[28px] font-bold text-white">{s.val}</span>
                     <div className="h-[4px] bg-white/[0.08] rounded-full overflow-hidden">
                       <motion.div
@@ -117,7 +117,7 @@ export default function MissionControl() {
             <div className="col-span-12 lg:col-span-4 flex flex-row lg:flex-col gap-8">
               {/* Agents */}
               <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.05] p-8 lg:p-10">
-                <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.25em] mb-6">Active Agents</p>
+                <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.25em] mb-6">Active Agents</p>
                 <div className="flex flex-col gap-5">
                   {AGENTS_MOCK.map((a, idx) => (
                     <motion.div 
@@ -131,7 +131,7 @@ export default function MissionControl() {
                         <div className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/[0.1] overflow-hidden" />
                         <div>
                           <p className="text-[14px] font-bold text-white/90 leading-none mb-1">{a.name}</p>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">{a.status}</p>
+                          <p className="text-[10px] text-white/50 font-black uppercase tracking-widest">{a.status}</p>
                         </div>
                       </div>
                       <div className="w-2 h-2 rounded-full bg-[#c3f967] shadow-[0_0_10px_#c3f967]" />

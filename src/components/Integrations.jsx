@@ -54,7 +54,7 @@ function IntegrationCard({ item }) {
         <p className="text-[14px] font-bold text-white/90 group-hover/card:text-white transition-colors duration-300 leading-none mb-1.5">
           {item.name}
         </p>
-        <p className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em]">Partner</p>
+        <p className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em]">Partner</p>
       </div>
     </motion.div>
   );
@@ -106,7 +106,7 @@ export default function Integrations() {
               <h3 className="text-[20px] lg:text-[22px] font-bold text-white tracking-tight group-hover:text-[#4f46e5] transition-colors">
                 {f.title}
               </h3>
-              <p className="text-[15px] text-white/40 leading-relaxed font-normal group-hover:text-white/60 transition-colors">
+              <p className="text-[15px] text-white/60 leading-relaxed font-normal group-hover:text-white/80 transition-colors">
                 {f.desc}
               </p>
             </motion.div>
@@ -125,7 +125,7 @@ export default function Integrations() {
             >
               <h3 className="text-[32px] sm:text-[44px] lg:text-[56px] font-bold text-white tracking-tighter leading-none">
                 One platform,{' '}
-                <span className="text-white/20 font-medium">unlimited integrations.</span>
+                <span className="text-white/50 font-medium">unlimited integrations.</span>
               </h3>
             </motion.div>
             <Button variant="secondary" size="md" href="#" icon="→" className="group shrink-0">

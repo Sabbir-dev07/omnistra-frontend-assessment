@@ -28,7 +28,7 @@ const Illustrations = {
     <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" viewBox="0 0 200 200" fill="none">
       <path d="M0 140 Q 50 100 100 140 T 200 140" stroke="white" strokeWidth="0.5" />
       <path d="M0 150 Q 50 110 100 150 T 200 150" stroke="#4f46e5" strokeWidth="0.5" opacity="0.5" />
-      <path d="M0 160 Q 50 120 100 160 T 200 160" stroke="white" strokeWidth="0.5" opacity="0.2" />
+      <path d="M0 160 Q 50 120 100 160 T 200 160" stroke="white" strokeWidth="0.5" opacity="0.4" />
     </svg>
   ),
   Layers: () => (

@@ -58,7 +58,7 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
             <div className="flex items-center justify-between px-6 py-6 border-b border-white/[0.05] shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] shadow-[0_0_8px_rgba(79,70,229,0.8)]" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">
                   Menu
                 </span>
               </div>
@@ -87,7 +87,7 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
                     <span className="text-[16px] font-bold text-white/80 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all duration-300 tracking-tight">
                       {item.label}
                     </span>
-                    <svg className="w-3.5 h-3.5 text-white/10 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <svg className="w-3.5 h-3.5 text-white/30 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M9 18l6-6-6-6" />
                     </svg>
                   </motion.a>
@@ -101,7 +101,7 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
                 Get Started
               </Button>
               <div className="flex flex-col items-center gap-2">
-                <a href="#" className="text-[11px] font-bold text-white/30 hover:text-white transition-colors uppercase tracking-[0.15em] py-2">
+                <a href="#" className="text-[11px] font-bold text-white/50 hover:text-white transition-colors uppercase tracking-[0.15em] py-2">
                   Sign In
                 </a>
               </div>
