@@ -8,7 +8,7 @@ export const AnnouncementBar = () => {
   const items = Array.from({ length: 10 }, (_, i) => i);
 
   return (
-    <div className="bg-black select-none border-b border-white/5" style={{ height: '24px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+    <div className="bg-black select-none" style={{ height: '24px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
       <motion.div
         className="flex items-center gap-0"
         animate={{ x: ['0%', '-50%'] }}

@@ -39,7 +39,7 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none px-4 lg:px-6 pt-4 lg:pt-6">
-        <div className="pointer-events-auto max-w-[1440px] mx-auto w-full mb-4">
+        <div className="pointer-events-auto max-w-[1440px] mx-auto w-full">
           <AnnouncementBar />
         </div>
 
