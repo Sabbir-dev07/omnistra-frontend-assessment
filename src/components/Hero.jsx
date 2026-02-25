@@ -88,12 +88,12 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1.5 }}
-          className="mt-24 pt-10 border-t border-white/[0.05] flex flex-col sm:flex-row items-start sm:items-center gap-6"
+          className="mt-16 pt-10 border-t border-white/[0.05] flex flex-col sm:flex-row items-start sm:items-center gap-6"
         >
-          <span className="text-[11px] font-bold text-white/20 uppercase tracking-[0.3em]">
+          <span className="text-[11px] font-bold text-white/50 uppercase tracking-[0.3em]">
             Institutional Grade
           </span>
-          <div className="flex items-center gap-8 opacity-25 hover:opacity-50 transition-opacity duration-700 cursor-pointer">
+          <div className="flex items-center gap-8 opacity-60 hover:opacity-100 transition-opacity duration-700 cursor-pointer">
             {['Y Combinator', '·', 'Fintech Approved', '·', 'SOC 2 Certified'].map((t, i) => (
               <span key={i} className="text-[12px] font-bold text-white tracking-[0.2em]">{t}</span>
             ))}
