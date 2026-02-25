@@ -7,10 +7,10 @@ const drawerVariants = {
     x: 0, 
     opacity: 1,
     transition: { 
-      duration: 0.5, 
+      duration: 0.6, 
       ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.06,
-      delayChildren: 0.1
+      staggerChildren: 0.08,
+      delayChildren: 0.2
     } 
   },
   exit: { 
@@ -26,23 +26,23 @@ const itemVariants = {
 };
 
 /**
- * MobileMenu — Premium Glassmorphic Drawer (NO SCROLL).
- * Designed to fit all content within the viewport without scrolling.
+ * Modern MobileMenu — High-end dark glassmorphic design.
+ * Features staggered animations, neon accents, and premium typography.
  */
 export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Enhanced Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4 }}
             onClick={onClose}
-            className="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[55] bg-black/60 backdrop-blur-md lg:hidden"
           />
 
           {/* Premium Dark Drawer */}
@@ -52,59 +52,72 @@ export const MobileMenu = ({ isOpen, onClose, items = [] }) => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed top-0 right-0 bottom-0 z-[60] w-[320px] max-w-[85vw] bg-[#080808]/95 backdrop-blur-3xl flex flex-col border-l border-white/[0.08] lg:hidden shadow-[-20px_0_40px_rgba(0,0,0,0.8)] overflow-hidden"
+            className="fixed top-0 right-0 bottom-0 z-[60] w-full sm:w-[380px] bg-[#050505]/95 backdrop-blur-3xl flex flex-col border-l border-white/[0.08] lg:hidden"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-6 border-b border-white/[0.05] shrink-0">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] shadow-[0_0_8px_rgba(79,70,229,0.8)]" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">
-                  Menu
+            {/* Header with Glass Effect */}
+            <div className="flex items-center justify-between px-8 py-8 border-b border-white/[0.05]">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-[#4f46e5] animate-pulse shadow-[0_0_10px_rgba(79,70,229,0.8)]" />
+                <span className="text-[12px] font-black uppercase tracking-[0.25em] text-white/40">
+                  Navigation
                 </span>
               </div>
               <button
                 onClick={onClose}
-                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-white/[0.2] transition-all"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.08] hover:border-white/[0.2] transition-all duration-300"
                 aria-label="Close menu"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            {/* Nav Links - Static container, no scroll */}
-            <div className="flex-1 py-4 flex flex-col justify-center">
-              <div className="flex flex-col">
+            {/* Staggered Nav Links */}
+            <div className="flex-1 overflow-y-auto py-8">
+              <div className="flex flex-col gap-1">
                 {items.map((item) => (
                   <motion.a
                     key={item.label}
                     href={item.href || '#'}
                     variants={itemVariants}
-                    className="flex items-center justify-between px-6 py-3.5 group transition-all duration-300"
+                    className="flex items-center justify-between px-8 py-5 group transition-all duration-300"
                     onClick={onClose}
                   >
-                    <span className="text-[16px] font-bold text-white/80 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all duration-300 tracking-tight">
-                      {item.label}
-                    </span>
-                    <svg className="w-3.5 h-3.5 text-white/30 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M9 18l6-6-6-6" />
-                    </svg>
+                    <div className="flex flex-col">
+                      <span className="text-[20px] font-bold text-white/90 group-hover:text-[#4f46e5] group-hover:translate-x-1 transition-all duration-300 tracking-tight">
+                        {item.label}
+                      </span>
+                      {item.dropdown && (
+                        <span className="text-[9px] font-bold text-white/20 uppercase tracking-[0.1em] mt-1 group-hover:text-[#4f46e5]/40 transition-colors">
+                          Explore Features
+                        </span>
+                      )}
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/[0.05] flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-300">
+                      <svg className="w-4 h-4 text-[#4f46e5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M9 18l6-6-6-6" />
+                      </svg>
+                    </div>
                   </motion.a>
                 ))}
               </div>
             </div>
 
-            {/* Premium CTA Footer */}
-            <div className="px-6 py-8 flex flex-col gap-4 border-t border-white/[0.05] bg-white/[0.01] shrink-0 mt-auto">
-              <Button variant="secondary" size="lg" className="w-full justify-center py-5 rounded-xl shadow-[0_15px_30px_-10px_rgba(79,70,229,0.3)]">
-                Get Started
-              </Button>
-              <div className="flex flex-col items-center gap-2">
-                <a href="#" className="text-[11px] font-bold text-white/50 hover:text-white transition-colors uppercase tracking-[0.15em] py-2">
+            {/* Modernized CTA Footer */}
+            <div className="px-8 py-10 flex flex-col gap-4 border-t border-white/[0.05] bg-white/[0.01]">
+              <div className="flex flex-col gap-3">
+                <Button variant="secondary" size="lg" className="w-full justify-center py-6 rounded-2xl shadow-[0_20px_40px_-10px_rgba(79,70,229,0.3)]">
+                  Get Started
+                </Button>
+                <button className="w-full text-center py-4 text-[13px] font-bold uppercase tracking-[0.15em] text-white/60 hover:text-white transition-colors duration-200">
                   Sign In
-                </a>
+                </button>
               </div>
+              
+              <p className="text-center text-[10px] text-white/20 font-medium tracking-wide mt-4 uppercase">
+                Institutional Grade AI Solutions
+              </p>
             </div>
           </motion.div>
         </>

@@ -73,10 +73,10 @@ export default function Agents() {
               transition={{ delay: i * 0.15, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               whileHover="hover"
               variants={variants.cardHover}
-              className="group card rounded-[32px] flex flex-col overflow-hidden p-0 cursor-pointer bg-[#080808] border-white/[0.05] hover:border-white/20 transition-all duration-500 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_32px_64px_rgba(0,0,0,0.6)]"
+              className="group card rounded-[32px] flex flex-col overflow-hidden p-0 cursor-pointer bg-[#080808] border-white/[0.05] hover:border-white/20 transition-all duration-500 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_40px_rgba(255,255,255,0.03)]"
             >
               {/* Avatar zone */}
-              <div className="relative flex justify-center pt-12 pb-10 bg-[#0a0a0a] border-b border-white/[0.05]">
+              <div className="relative flex justify-center pt-8 pb-6 md:pt-12 md:pb-10 bg-[#0a0a0a] border-b border-white/[0.05]">
                 {/* Top color accent bar */}
                 <motion.div
                   className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
@@ -102,7 +102,7 @@ export default function Agents() {
               </div>
 
               {/* Content */}
-              <div className="p-10 flex flex-col flex-1">
+              <div className="flex-1 px-6 py-8 md:px-10 md:py-12 flex flex-col relative z-10">
                 <div className="mb-6 text-center md:text-left">
                   <h3 className="text-[26px] font-bold text-white tracking-tight leading-none mb-2.5 group-hover:text-white transition-colors">{agent.name}</h3>
                   <p className="text-[12px] font-black uppercase tracking-[0.18em] leading-snug" style={{ color: agent.color }}>

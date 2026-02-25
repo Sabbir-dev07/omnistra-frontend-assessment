@@ -56,6 +56,7 @@ function Footer() {
                 key={link}
                 href="#"
                 whileHover={{ color: '#fff' }}
+
                 className="text-[12px] text-white/20 font-medium hover:text-white transition-colors"
                 title={link}
               >
@@ -69,13 +70,11 @@ function Footer() {
   );
 }
 
-import AnimatedBackground from './components/ui/AnimatedBackground';
 import ScrollReveal from './components/ui/ScrollReveal';
 
 function App() {
   return (
     <div className="min-h-screen bg-black selection:bg-[#4f46e5]/30">
-      <AnimatedBackground />
       <Navbar />
 
       <main className="relative z-10 pt-20 lg:pt-24">

@@ -72,7 +72,7 @@ export default function ClientCases() {
               transition={{ delay: i * 0.15, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               whileHover="hover"
               variants={variants.cardHover}
-              className="group card rounded-[32px] p-10 flex flex-col relative overflow-hidden cursor-pointer bg-[#080808] border-white/[0.05] hover:border-[#4f46e5]/30 transition-all duration-500 shadow-2xl"
+              className="group card rounded-[32px] p-10 flex flex-col relative overflow-hidden cursor-pointer bg-[#080808] border-white/[0.05] hover:border-[#4f46e5]/30 transition-all duration-500 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_40px_rgba(255,255,255,0.03)]"
             >
               {/* Corner glow */}
               <div className="absolute top-0 right-0 w-48 h-48 bg-[#4f46e5]/[0.08] blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
@@ -112,16 +112,6 @@ export default function ClientCases() {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="mt-24 lg:mt-32 relative rounded-[56px] bg-white text-black overflow-hidden px-12 py-24 flex flex-col items-center text-center shadow-[0_80px_160px_rgba(0,0,0,0.6)]"
         >
-          {/* Watermark animation */}
-          <motion.div 
-            animate={{ x: ['-10%', '10%'] }}
-            transition={{ duration: 10, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
-            className="absolute inset-0 overflow-hidden select-none pointer-events-none"
-          >
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[180px] font-black italic text-black/[0.03] whitespace-nowrap tracking-tighter leading-none">
-              EXECUTE · SCALE · GOVERN
-            </p>
-          </motion.div>
 
           <h2 className="text-[40px] md:text-[64px] font-bold text-black tracking-tighter leading-[1.02] mb-8 relative z-10">
             Ready to scale your servicing?

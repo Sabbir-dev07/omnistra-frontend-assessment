@@ -38,7 +38,7 @@ export default function Hero() {
             <motion.h1
               variants={variants.fadeUp(0.1, 60)}
               className="section-h max-w-[850px] py-1"
-              style={{ fontSize: 'clamp(2.5rem, 6vw, 5.5rem)' }}
+              style={{ fontSize: 'clamp(2rem, 8vw, 5.5rem)' }}
             >
               AI Agents Built For{' '}
               <br />
@@ -93,9 +93,9 @@ export default function Hero() {
           <span className="text-[11px] font-bold text-white/50 uppercase tracking-[0.3em]">
             Institutional Grade
           </span>
-          <div className="flex items-center gap-8 opacity-60 hover:opacity-100 transition-opacity duration-700 cursor-pointer">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4 opacity-70 hover:opacity-100 transition-opacity duration-700 cursor-pointer">
             {['Y Combinator', '·', 'Fintech Approved', '·', 'SOC 2 Certified'].map((t, i) => (
-              <span key={i} className="text-[12px] font-bold text-white tracking-[0.2em]">{t}</span>
+              <span key={i} className="text-[10px] md:text-[12px] font-bold text-white tracking-[0.2em]">{t}</span>
             ))}
           </div>
         </motion.div>

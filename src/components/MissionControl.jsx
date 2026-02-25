@@ -62,33 +62,33 @@ export default function MissionControl() {
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-[1240px] mx-auto rounded-[48px] border border-white/[0.12] bg-[#050505] overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_80px_160px_rgba(0,0,0,0.8)] group relative"
+          className="w-full max-w-[1240px] mx-auto rounded-[32px] md:rounded-[48px] border border-white/[0.12] bg-[#050505] overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_40px_80px_rgba(255,255,255,0.015)] group relative"
         >
           {/* Window chrome */}
-          <div className="flex items-center justify-between px-10 py-6 border-b border-white/[0.05] bg-white/[0.02]">
+          <div className="flex items-center justify-between px-6 py-4 lg:px-10 lg:py-6 border-b border-white/[0.05] bg-white/[0.02]">
             <div className="flex gap-2.5">
               <div className="w-3 h-3 rounded-full bg-red-500/30" />
               <div className="w-3 h-3 rounded-full bg-yellow-400/30" />
               <div className="w-3 h-3 rounded-full bg-green-500/30" />
             </div>
-            <div className="flex items-center gap-3 px-5 py-2 rounded-full bg-[#0f0f0f] border border-white/[0.08] text-[10px] text-[#4f46e5] font-black uppercase tracking-[0.2em]">
-              <span className="w-[6px] h-[6px] rounded-full bg-[#4f46e5] animate-pulse inline-block" />
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-[#0f0f0f] border border-white/[0.08] text-[9px] sm:text-[10px] text-[#4f46e5] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] animate-pulse inline-block" />
               Live · Monitoring Active
             </div>
-            <div className="w-20" />
+            <div className="hidden sm:block w-20" />
           </div>
 
           {/* Panel grid */}
-          <div className="p-8 lg:p-10 grid grid-cols-12 gap-8 min-h-[500px]">
+          <div className="p-5 lg:p-10 grid grid-cols-12 gap-6 lg:gap-8 min-h-[500px]">
             {/* Main metric */}
-            <div className="col-span-12 lg:col-span-8 bg-[#080808] rounded-[32px] border border-white/[0.08] p-10 lg:p-14 flex flex-col relative overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
+            <div className="col-span-12 lg:col-span-8 bg-[#080808] rounded-[32px] border border-white/[0.08] p-6 md:p-10 lg:p-14 flex flex-col relative overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_0_30px_rgba(255,255,255,0.01)]">
               <p className="text-[11px] font-black text-white/50 uppercase tracking-[0.25em] mb-4">Total Recovery Yield</p>
-              <h4 className="text-[56px] lg:text-[72px] font-bold text-white tracking-tighter leading-none mb-12">
+              <h4 className="text-[32px] sm:text-[56px] lg:text-[72px] font-bold text-white tracking-tighter leading-none mb-12">
                 $14,248,392
               </h4>
 
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-8 mt-auto relative z-10">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mt-auto relative z-10">
                 {STATS.map(s => (
                   <div key={s.label} className="flex flex-col gap-3">
                     <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">{s.label}</span>
@@ -114,9 +114,9 @@ export default function MissionControl() {
             </div>
 
             {/* Sidebar */}
-            <div className="col-span-12 lg:col-span-4 flex flex-row lg:flex-col gap-8">
+            <div className="col-span-12 lg:col-span-4 flex flex-col gap-8">
               {/* Agents */}
-              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.08] p-8 lg:p-10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
+              <div className="flex-1 bg-[#080808] rounded-[24px] md:rounded-[32px] border border-white/[0.08] p-6 lg:p-10 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_0_30px_rgba(255,255,255,0.01)]">
                 <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.25em] mb-6">Active Agents</p>
                 <div className="flex flex-col gap-5">
                   {AGENTS_MOCK.map((a, idx) => (
@@ -141,7 +141,7 @@ export default function MissionControl() {
               </div>
 
               {/* Sentiment */}
-              <div className="flex-1 bg-[#080808] rounded-[32px] border border-white/[0.08] p-8 lg:p-10 flex flex-col justify-center shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
+              <div className="flex-1 bg-[#080808] rounded-[24px] md:rounded-[32px] border border-white/[0.08] p-6 lg:p-10 flex flex-col justify-center shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_0_30px_rgba(255,255,255,0.01)]">
                 <p className="text-[10px] font-black text-[#4f46e5] uppercase tracking-[0.25em] mb-4">Sentiment Score</p>
                 <div className="flex items-baseline gap-3">
                   <span className="text-[48px] lg:text-[56px] font-bold text-white tracking-tighter leading-none">98.2</span>
