@@ -16,11 +16,6 @@ const INSIGHTS = [
     title: 'Detecting deviations before they become violations',
     desc: 'Proactively identify subtle shifts in model behavior that could lead to regulatory risks, enabling immediate corrective action before they escalate.',
   },
-  {
-    id: '04',
-    title: 'Stress-testing compliance under extreme conditions',
-    desc: 'Battle-test your AI agents against edge-case scenarios to guarantee zero-fail performance in any regulatory environment.',
-  },
 ];
 
 const BADGES = [
